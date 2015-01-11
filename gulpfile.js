@@ -21,9 +21,9 @@ gulp.task('browserify', function() {
         var updateStart = Date.now();
         console.log('Updating!');
         watcher.bundle() // Create new bundle that uses the cache for high performance
-        .pipe(source('main.jsx'))
+        .pipe(source('main.js'))
     // This is where you add uglifying etc.
-        .pipe(gulp.dest('./app/js'));
+        .pipe(gulp.dest('./app/js/'));
         console.log('Updated!', (Date.now() - updateStart) + 'ms');
     })
     .bundle() // Create the initial bundle when starting the task
