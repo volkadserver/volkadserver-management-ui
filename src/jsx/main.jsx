@@ -1,14 +1,17 @@
 /** @jsx React.DOM */
 
 var React = require('react');
-// Here we put our React instance to the global scope. Make sure you do not put it 
-// into production and make sure that you close and open your console if the 
-// DEV-TOOLS does not display
+
+var NavBar = require('./navBar.jsx');
+
 window.React = React; 
 
 var App = React.createClass({
   render: function() {
-    return <div>Hello {this.props.name}</div>
+    return <div className="container">
+        <NavBar />
+
+      </div>
   }
 });
 
