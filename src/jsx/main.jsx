@@ -3,10 +3,12 @@
 var React = require('react');
 
 var NavBar = require('./navBar.jsx');
-var Router = require('react-router');
+var CampaignsPage = require('./campaigns.jsx');
 
+var Router = require('react-router');
 var Route = require('react-router').Route;
 var RouteHandler = require('react-router').RouteHandler;
+
 
 window.React = React; 
 
@@ -26,12 +28,6 @@ var Inventory = React.createClass({
   }
 });
 
-var Campaigns = React.createClass({
-  render: function() {
-    return <h1>Campaigns Page</h1>
-  }
-});
-
 var Reporting = React.createClass({
   render: function() {
     return <h1>Reporting Page</h1>
@@ -40,7 +36,9 @@ var Reporting = React.createClass({
 
 var routes = (
   <Route handler={App}>
-    <Route name="campaigns" handler={Campaigns} />
+    <Route name="campaigns" handler={CampaignsPage.master}>
+      <Route name="create-campaign" path="create" handler={CampaignsPage.create} />
+    </Route>
     <Route name="reporting" handler={Reporting} />
     <Route name="inventory" handler={Inventory} />
   </Route>
