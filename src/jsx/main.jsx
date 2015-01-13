@@ -7,6 +7,7 @@ var CampaignsPage = require('./campaigns.jsx');
 
 var Router = require('react-router');
 var Route = require('react-router').Route;
+var DefaultRoute = require('react-router').DefaultRoute;
 var RouteHandler = require('react-router').RouteHandler;
 
 
@@ -37,6 +38,7 @@ var Reporting = React.createClass({
 var routes = (
   <Route handler={App}>
     <Route name="campaigns" handler={CampaignsPage.master}>
+      <DefaultRoute handler={CampaignsPage.index} />
       <Route name="create-campaign" path="create" handler={CampaignsPage.create} />
     </Route>
     <Route name="reporting" handler={Reporting} />

@@ -29,6 +29,12 @@ module.exports = {
     }
   }),
 
+  index: React.createClass({
+    render: function() {
+      return <div className="col-md-12">List campaigns here</div>
+    }
+  }),
+
   create: React.createClass({
    render: function() {
      return <div className="col-md-12">Create new campaigns here</div>
