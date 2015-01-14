@@ -9,8 +9,8 @@ module.exports = {
   master: React.createClass({
     render: function() {
       return (
-        <div className="container">
-          <nav className="navbar navbar-default">
+        <div>
+          <nav className="navbar navbar-default navbar-static-top">
             <div className="container-fluid">
               <div className="navbar-header">
                 <Link to="campaigns" className="navbar-brand">Campaigns</Link>
@@ -21,7 +21,7 @@ module.exports = {
               </Link>
             </div>
           </nav>
-          <div className="row">
+          <div className="container-fluid">
             <RouteHandler />
           </div>
         </div>
@@ -31,7 +31,37 @@ module.exports = {
 
   index: React.createClass({
     render: function() {
-      return <div className="col-md-12">List campaigns here</div>
+      var IndexItem = module.exports.indexItem;
+      return <div className="row">
+          <table className="table table-hover table-condensed">
+            <thead>
+              <th>Remaining Flights</th>
+              <th>Status</th>
+              <th>Name</th>
+              <th></th>
+            </thead>
+            <tbody>
+              <IndexItem />
+              <IndexItem />
+              <IndexItem />
+              <IndexItem />
+              <IndexItem />
+            </tbody>
+          </table>
+        </div>
+    }
+  }),
+
+  indexItem: React.createClass({
+    render: function() {
+      return <tr>
+          <td>4</td>
+          <td><strong>Active</strong></td>
+          <td>[N]_Tribal Fusion_5.0</td>
+          <td>
+            <span className="glyphicon glyphicon-edit pull-right"></span>
+          </td>
+        </tr>  
     }
   }),
 
@@ -39,7 +69,8 @@ module.exports = {
    render: function() {
      return <div className="col-md-12">Create new campaigns here</div>
    }
-  })
+  }),
+
 
 };
 
