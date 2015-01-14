@@ -39,8 +39,9 @@ var routes = (
   <Route handler={App}>
     <Route name="campaigns" handler={CampaignsPage.master}>
       <DefaultRoute handler={CampaignsPage.index} />
-      <Route name="create-campaign" path="create" handler={CampaignsPage.create} />
+      <Route name="create-campaign" path="create" handler={CampaignsPage.createCampaign} />
       <Route name="campaign" path="15" handler={CampaignsPage.campaign} />
+      <Route name="create-flight" path="15/create" handler={CampaignsPage.createFlight} />
     </Route>
     <Route name="reporting" handler={Reporting} />
     <Route name="inventory" handler={Inventory} />

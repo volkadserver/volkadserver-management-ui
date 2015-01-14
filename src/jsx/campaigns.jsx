@@ -65,7 +65,7 @@ module.exports = {
     }
   }),
 
-  create: React.createClass({
+  createCampaign: React.createClass({
     render: function() {
       return <div className="row">
           <form className="form-horizontal col-sm-12">
@@ -105,7 +105,18 @@ module.exports = {
         <div className="page-header">
           <h1>Campaign 15 <small>Its details and flights should be below</small></h1>
         </div>
+        <Link to="create-flight" className="btn btn-info">
+          <span className="glyphicon glyphicon-plus"></span> Flights
+        </Link>
       </div>
+    }
+  }),
+
+  createFlight: React.createClass({
+    render: function() {
+      return <div className="row">
+          <h2>On this page, you will create a flight</h2>
+        </div>
     }
   })
 
