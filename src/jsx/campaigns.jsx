@@ -83,7 +83,7 @@ module.exports = {
             </div>
             <div className="form-group">
               <div className="col-sm-offset-2 col-sm-6">
-                <div className="btn-toolbar">
+                <div className="btn-group">
                   <button type="button" className="btn btn-default">
                     <span className="glyphicon glyphicon-ok"></span> Create
                   </button>
