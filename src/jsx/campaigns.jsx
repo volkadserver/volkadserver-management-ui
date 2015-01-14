@@ -57,7 +57,7 @@ module.exports = {
       return <tr>
           <td>4</td>
           <td><strong>Active</strong></td>
-          <td>[N]_Tribal Fusion_5.0</td>
+          <td><Link to="campaign">[N]_Tribal Fusion_5.0</Link></td>
           <td>
             <span className="glyphicon glyphicon-edit pull-right"></span>
           </td>
@@ -95,9 +95,19 @@ module.exports = {
             </div>
           </form>
         </div>
-   }
+    }
   }),
 
+
+  campaign: React.createClass({
+    render: function() {
+      return <div className="row">
+        <div className="page-header">
+          <h1>Campaign 15 <small>Its details and flights should be below</small></h1>
+        </div>
+      </div>
+    }
+  })
 
 };
 

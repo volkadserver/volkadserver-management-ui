@@ -40,6 +40,7 @@ var routes = (
     <Route name="campaigns" handler={CampaignsPage.master}>
       <DefaultRoute handler={CampaignsPage.index} />
       <Route name="create-campaign" path="create" handler={CampaignsPage.create} />
+      <Route name="campaign" path="15" handler={CampaignsPage.campaign} />
     </Route>
     <Route name="reporting" handler={Reporting} />
     <Route name="inventory" handler={Inventory} />
