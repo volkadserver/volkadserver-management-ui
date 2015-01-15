@@ -39,7 +39,7 @@ module.exports= React.createClass({
           <div className="collapse navbar-collapse" id="nav-collapsable">
             <p className="navbar-text navbar-right">Welcome, <a href="#" className="navbar-link">Nathan</a></p>
             <ul className="nav navbar-nav">
-              <NavLi to="campaigns">Campaigns</NavLi>
+              <NavLi to="trafficking">Trafficking</NavLi>
               <NavLi to="reporting">Reporting</NavLi>
               <NavLi to="inventory">Inventory</NavLi>
             </ul>

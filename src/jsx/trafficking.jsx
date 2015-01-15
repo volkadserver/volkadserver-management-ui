@@ -13,11 +13,11 @@ module.exports = {
           <nav className="navbar navbar-default navbar-static-top">
             <div className="container-fluid">
               <div className="navbar-header">
-                <Link to="campaigns" className="navbar-brand">Campaigns</Link>
+                <Link to="trafficking" className="navbar-brand">Trafficking</Link>
               </div>
 
-              <Link className="btn btn-primary navbar-btn pull-right" to="create-campaign">
-                <span className="glyphicon glyphicon glyphicon-plus"></span> Create Campaign
+              <Link className="btn btn-primary navbar-btn pull-right" to="create-order">
+                <span className="glyphicon glyphicon glyphicon-plus"></span> Create Order
               </Link>
             </div>
           </nav>
@@ -57,7 +57,7 @@ module.exports = {
       return <tr>
           <td>4</td>
           <td><strong>Active</strong></td>
-          <td><Link to="campaign">[N]_Tribal Fusion_5.0</Link></td>
+          <td><Link to="order">[N]_Tribal Fusion_5.0</Link></td>
           <td>
             <span className="glyphicon glyphicon-edit pull-right"></span>
           </td>
@@ -65,17 +65,17 @@ module.exports = {
     }
   }),
 
-  createCampaign: React.createClass({
+  createOrder: React.createClass({
     render: function() {
       return <div className="row">
           <form className="form-horizontal col-sm-12">
             <div className="row">
-              <h3 className="col-sm-offset-2 col-sm-6">Add new campaign</h3>
+              <h3 className="col-sm-offset-2 col-sm-6">Add new order</h3>
             </div>
             <div className="form-group">
-              <label form="newCampaignBasics" className="control-label col-sm-2">Name</label>
+              <label form="newOrderBasics" className="control-label col-sm-2">Name</label>
               <div className="col-sm-6">
-                <input type="text" className="form-control" id="newCampaignName" placeholder="New Campaign Name" />
+                <input type="text" className="form-control" id="newOrderName" placeholder="New Order Name" />
               </div>
               <p className="col-sm-4">
                 This is some tip that helps with the stuff. I don't know how long it'll be really. We'll see.
@@ -99,11 +99,11 @@ module.exports = {
   }),
 
 
-  campaign: React.createClass({
+  order: React.createClass({
     render: function() {
       return <div className="row">
         <div className="page-header">
-          <h1>Campaign 15 <small>Its details and flights should be below</small></h1>
+          <h1>Order 15 <small>Its details and flights should be below</small></h1>
         </div>
         <Link to="create-flight" className="btn btn-info">
           <span className="glyphicon glyphicon-plus"></span> Flights

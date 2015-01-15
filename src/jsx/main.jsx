@@ -3,7 +3,7 @@
 var React = require('react');
 
 var NavBar = require('./navBar.jsx');
-var CampaignsPage = require('./campaigns.jsx');
+var trafficking = require('./trafficking.jsx');
 
 var Router = require('react-router');
 var Route = require('react-router').Route;
@@ -37,11 +37,11 @@ var Reporting = React.createClass({
 
 var routes = (
   <Route handler={App}>
-    <Route name="campaigns" handler={CampaignsPage.master}>
-      <DefaultRoute handler={CampaignsPage.index} />
-      <Route name="create-campaign" path="create" handler={CampaignsPage.createCampaign} />
-      <Route name="campaign" path="15" handler={CampaignsPage.campaign} />
-      <Route name="create-flight" path="15/create" handler={CampaignsPage.createFlight} />
+    <Route name="trafficking" handler={trafficking.master}>
+      <DefaultRoute handler={trafficking.index} />
+      <Route name="create-order" path="create" handler={trafficking.createOrder} />
+      <Route name="order" path="15" handler={trafficking.order} />
+      <Route name="create-flight" path="15/create" handler={trafficking.createFlight} />
     </Route>
     <Route name="reporting" handler={Reporting} />
     <Route name="inventory" handler={Inventory} />
