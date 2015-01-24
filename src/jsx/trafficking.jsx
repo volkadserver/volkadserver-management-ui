@@ -4,6 +4,7 @@ var React = require('react');
 
 var Link = require('react-router').Link;
 var RouteHandler = require('react-router').RouteHandler;
+var apiClient = require('../js/apiClient');
 
 module.exports = {
   master: React.createClass({
@@ -30,8 +31,26 @@ module.exports = {
   }),
 
   index: React.createClass({
+    getInitialState: function() {
+      return {
+        indexItems: []
+      }
+    },
+
+    componentDidMount: function() {
+      apiClient.Orders.find(function(data) { 
+        this.setState({ indexItems: data.obj });
+      }.bind(this));
+    },
+
     render: function() {
       var IndexItem = module.exports.indexItem;
+
+      var indexItems = [];
+      for(var i in this.state.indexItems) {
+        indexItems.push(<IndexItem {...this.state.indexItems[i]} />);
+      }
+
       return <div className="row">
           <table className="table table-hover table-condensed">
             <thead>
@@ -41,11 +60,7 @@ module.exports = {
               <th></th>
             </thead>
             <tbody>
-              <IndexItem />
-              <IndexItem />
-              <IndexItem />
-              <IndexItem />
-              <IndexItem />
+              {indexItems}
             </tbody>
           </table>
         </div>
@@ -53,11 +68,15 @@ module.exports = {
   }),
 
   indexItem: React.createClass({
+    getInitialState: function() {
+      return {};
+    },
+
     render: function() {
       return <tr>
-          <td>4</td>
+          <td>{this.props.id}</td>
           <td><strong>Active</strong></td>
-          <td><Link to="order">[N]_Tribal Fusion_5.0</Link></td>
+          <td><Link to="order" params={this.props}>{this.props.name}</Link></td>
           <td>
             <span className="glyphicon glyphicon-edit pull-right"></span>
           </td>

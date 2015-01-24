@@ -57,7 +57,7 @@ var routes = (
     <Route name="trafficking" handler={trafficking.master}>
       <DefaultRoute handler={trafficking.index} />
       <Route name="create-order" path="create" handler={trafficking.createOrder} />
-      <Route name="order" path="15" handler={trafficking.order} />
+      <Route name="order" path=":id" handler={trafficking.order} />
       <Route name="create-flight" path="15/create" handler={trafficking.createFlight} />
     </Route>
     <Route name="reporting" handler={Reporting} />
