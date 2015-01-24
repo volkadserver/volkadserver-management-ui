@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require('react');
+var apiClient = require('../js/apiClient.js').initialize();
 
 var NavBar = require('./navBar.jsx');
 var trafficking = require('./trafficking.jsx');
@@ -14,10 +15,26 @@ var RouteHandler = require('react-router').RouteHandler;
 window.React = React; 
 
 var App = React.createClass({
+  getInitialState: function() {
+    var state = {
+      apiReady: false
+    }
+    if(!apiClient.ready) {
+      apiClient.once('ready', (function() {
+        console.log(' api ready');
+        this.setState({ apiReady: true });
+      }).bind(this));
+    }
+    return state;
+  },
+
   render: function() {
+    // TODO: add api error component when false
+    var content = this.state.apiReady ? <RouteHandler /> : 'API not ready';
     return <div className="container">
         <NavBar />
-        <RouteHandler />
+        {content}
+        
 
       </div>
   }
