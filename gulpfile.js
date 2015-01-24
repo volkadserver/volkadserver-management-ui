@@ -5,7 +5,6 @@ var watchify = require('watchify');
 var reactify = require('reactify'); 
 var concat = require('gulp-concat');
 var haml = require('gulp-haml');
-var sass = require('gulp-sass');
  
 gulp.task('browserify', function() {
     var bundler = browserify({
