@@ -4,7 +4,7 @@ var React = require('react');
 
 var Link = require('react-router').Link;
 var RouteHandler = require('react-router').RouteHandler;
-var apiClient = require('../js/apiClient');
+var apiClient = require('../apiClient');
 
 module.exports = {
   master: React.createClass({

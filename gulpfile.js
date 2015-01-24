@@ -8,7 +8,7 @@ var haml = require('gulp-haml');
  
 gulp.task('browserify', function() {
     var bundler = browserify({
-        entries: ['./src/jsx/main.jsx'], // Only need initial file, browserify finds the deps
+        entries: ['./app/main.jsx'], // Only need initial file, browserify finds the deps
         transform: [reactify], // We want to convert JSX to normal javascript
         debug: true, // Gives us sourcemapping
         cache: {}, packageCache: {}, fullPaths: true // Requirement of watchify
@@ -22,22 +22,22 @@ gulp.task('browserify', function() {
         watcher.bundle() // Create new bundle that uses the cache for high performance
         .pipe(source('main.js'))
     // This is where you add uglifying etc.
-        .pipe(gulp.dest('./app/js/'));
+        .pipe(gulp.dest('./build/js/'));
         console.log('Updated!', (Date.now() - updateStart) + 'ms');
     })
     .bundle() // Create the initial bundle when starting the task
     .pipe(source('main.js'))
-    .pipe(gulp.dest('./app/js/'));
+    .pipe(gulp.dest('./build/js/'));
 });
 
 gulp.task('haml', function () {
-  gulp.src('./src/haml/*.haml')
+  gulp.src('./app/haml/*.haml')
     .pipe(haml())
-    .pipe(gulp.dest('./app'));
+    .pipe(gulp.dest('./build'));
 });
 
 gulp.task('watch', function() {
-  gulp.watch('./src/haml/*.haml', ['haml']);
+  gulp.watch('./app/haml/*.haml', ['haml']);
 });
 
 

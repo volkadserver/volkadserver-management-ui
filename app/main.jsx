@@ -1,10 +1,10 @@
 /** @jsx React.DOM */
 
 var React = require('react');
-var apiClient = require('../js/apiClient.js').initialize();
+var apiClient = require('./apiClient.js').initialize();
 
-var NavBar = require('./navBar.jsx');
-var trafficking = require('./trafficking.jsx');
+var NavBar = require('./components/navBar.jsx');
+var trafficking = require('./components/trafficking.jsx');
 
 var Router = require('react-router');
 var Route = require('react-router').Route;
