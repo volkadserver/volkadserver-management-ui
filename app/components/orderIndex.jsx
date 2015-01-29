@@ -1,8 +1,18 @@
 /** @jsx React.DOM */
 
 var React = require('react');
-var apiClient = require('../apiClient');
 var Link = require('react-router').Link;
+var marty = require('marty');
+var orderStore = require('../stores/orderStore.js');
+
+var orderStateMixin = marty.createStateMixin({
+  listenTo: orderStore,
+  getState: function() {
+    return {
+      orders: orderStore.getAllOrders()
+    };
+  }
+});
 
 var IndexItem = React.createClass({
   getInitialState: function() {
@@ -10,7 +20,8 @@ var IndexItem = React.createClass({
   },
 
   render: function() {
-    return <tr>
+    return (
+      <tr>
         <td>{this.props.id}</td>
         <td><strong>Active</strong></td>
         <td><Link to="order" params={this.props}>{this.props.name}</Link></td>
@@ -18,27 +29,25 @@ var IndexItem = React.createClass({
           <span className="glyphicon glyphicon-edit pull-right"></span>
         </td>
       </tr>  
+    )
   }
 });
 
 module.exports = React.createClass({
-  getInitialState: function() {
-    return {
-      indexItems: []
-    }
-  },
-
-  componentDidMount: function() {
-    apiClient.Orders.find(function(data) { 
-      this.setState({ indexItems: data.obj });
-    }.bind(this));
-  },
+  mixins: [ orderStateMixin ],
 
   render: function() {
-    var indexItems = [];
-    for(var i in this.state.indexItems) {
-      indexItems.push(<IndexItem {...this.state.indexItems[i]} />);
-    }
+    var indexItems = this.state.orders.when({
+      pending: function() { return <tr><td><strong> Pending... </strong></td></tr> },
+      failed: function(err) { 
+        return <strong> {err}  </strong> 
+      },
+      done: function(orders) { 
+        return orders.map(function(order, i) {
+          return <IndexItem {...order} key={i} />;
+        });
+      }
+    });
 
     return <div className="row">
         <table className="table table-hover table-condensed">
