@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require('react');
+var _ = require('lodash');
 var Link = require('react-router').Link;
 var marty = require('marty');
 var orderStore = require('../stores/orderStore.js');
@@ -43,7 +44,7 @@ module.exports = React.createClass({
         return <strong> {err}  </strong> 
       },
       done: function(orders) { 
-        return orders.map(function(order, i) {
+        return _.map(orders, function(order, i) {
           return <IndexItem {...order} key={i} />;
         });
       }
