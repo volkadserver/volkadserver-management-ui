@@ -15,6 +15,13 @@ var orderApi = marty.createStateSource({
     return this.get('/Orders/' + id).then(function(res) {
       orderSourceActionCreators.receiveOrders([res.body]);
     });
+  },
+
+  createOrder: function(order) {
+    return this.post({ url: '/Orders', body: order, contentType: 'application/json' })
+      .then(function(res) {
+        orderSourceActionCreators.receiveOrders([res.body]);
+      });
   }
 });
 

@@ -6,7 +6,8 @@ var orderApi = require('../sources/orderApi');
 var orderStore = marty.createStore({
 
   handlers: {
-    receiveOrders: orderConstants.RECEIVE_ORDERS
+    receiveOrders: orderConstants.RECEIVE_ORDERS,
+    createOrder: orderConstants.CREATE_ORDER
   },
 
   getInitialState: function() {
@@ -18,7 +19,6 @@ var orderStore = marty.createStore({
     orders.forEach(function(order) {
       this.state.orders[order.id] = order;
     }, this);
-    console.log(this.state);
     this.hasChanged()
   },
 
@@ -45,9 +45,22 @@ var orderStore = marty.createStore({
         return orderApi.getAllOrders();
       }
     });
+  },
+
+  createOrder: function(order) {
+    var newOrder = order;
+    newOrder.submission = this.fetch({
+      id: 'CREATE_ORDER',
+      locally: function() { return undefined; },
+      remotely: function() {
+        return orderApi.createOrder(order);
+      }
+    });
+
+    this.state.newOrder = newOrder;
+    this.hasChanged();
+    return this.state.newOrder.submission;
   }
-
-
 });
 
 module.exports = orderStore;
