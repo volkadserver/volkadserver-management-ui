@@ -19,7 +19,9 @@ var orderStore = marty.createStore({
     orders.forEach(function(order) {
       this.state.orders[order.id] = order;
     }, this);
-    this.hasChanged()
+    
+    this.hasChanged();
+
   },
 
   getOrder: function(id) {
@@ -35,11 +37,11 @@ var orderStore = marty.createStore({
   },
 
   getAllOrders: function() {
-    console.log('getting all orders');
     return this.fetch({
       id: 'GET_ALL_ORDERS',
       locally: function() { 
-        return this.state.orders;
+        if(this.hasAlreadyFetched('GET_ALL_ORDERS'))
+          return this.state.orders;
       },
       remotely: function() {
         return orderApi.getAllOrders();
