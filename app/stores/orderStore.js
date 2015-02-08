@@ -11,7 +11,7 @@ var orderStore = marty.createStore({
   },
 
   getInitialState: function() {
-    return {  };
+    return {};
   },
 
   receiveOrders: function(orders) {
@@ -49,19 +49,15 @@ var orderStore = marty.createStore({
     });
   },
 
-  createOrder: function(order) {
-    var newOrder = order;
-    newOrder.submission = this.fetch({
-      id: 'CREATE_ORDER',
-      locally: function() { return undefined; },
-      remotely: function() {
-        return orderApi.createOrder(order);
-      }
-    });
-
-    this.state.newOrder = newOrder;
-    this.hasChanged();
-    return this.state.newOrder.submission;
+  createOrder: function(order, options) {
+    if(typeof options.pending == 'function') options.pending();
+    orderApi.createOrder(order)
+      .then(function(res) {
+        if(typeof options.success == 'function') options.success();
+      }.bind(order))
+      .catch(function(er) {
+        if(typeof options.error == 'function') options.error();
+      });
   }
 });
 

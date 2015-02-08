@@ -1,23 +1,27 @@
 /** @jsx React.DOM */
 
 var React = require('react');
-var marty = require('marty');
 
 var orderActionCreators = require('../actions/orderActionCreators');
 var orderStore = require('../stores/orderStore');
 
-var createOrderStateMixin = marty.createStateMixin({
-  listenTo: orderStore,
-  getState: function() {
-    return this.state.newOrder;
-  }
-});
 
 module.exports = React.createClass({
-  mixins: [ createOrderStateMixin ],
+  getInitialState: function() {
+    return { name: '' };
+  },
 
   submitOrder: function() {
-    orderActionCreators.createOrder(this.state);
+    orderActionCreators.createOrder(
+      this.state, 
+      { 
+        pending: function() { this.setState({ status: 'pending' }); }.bind(this),
+        error: function() { this.setState({ status: 'error' }); }.bind(this),
+        success: function() { 
+          this.setState({ status: 'success', saved: true }); 
+        }.bind(this)
+      }
+    );
   },
 
   onChangeName: function(e) {
@@ -25,30 +29,36 @@ module.exports = React.createClass({
   },
 
   render: function() {
-    var buttonClass = 'btn-default';
-    var buttonGlyph = 'glyphicon-ok';
-    var submitAction = this.submitOrder;
-    if(this.state.submission && this.state.submission.when) {
-      this.state.submission.when({
-        pending: function() {
-          buttonClass = 'btn-warning';
-          buttonGlyph = 'glyphicon-refresh';
-          submitAction = '';
-        },
-        failed: function(err) {
-          console.log(err);
-          buttonClass = 'btn-danger';
-          buttonGlyph = 'glyphicon-flash';
-          submitAction = '';
-        },
-        done: function() {
-          console.log('done!');
-          buttonClass = 'btn-success';
-          buttonGlyph = 'glyphicon-thumbs-up';
-          submitAction = '';
-        }
-      });
+    var buttonClass, buttonGlyph, submitAction, buttonSuffix, addFlights;
+
+    switch(this.state.status) {
+      case 'pending':
+        buttonClass = 'btn-warning';
+        buttonGlyph = 'glyphicon-refresh';
+        submitAction = '';
+        buttonSuffix = 'ing';
+        break;
+      case 'error':
+        buttonClass = 'btn-danger';
+        buttonGlyph = 'glyphicon-flash';
+        submitAction = '';
+        buttonSuffix = '';
+      case 'success':
+        buttonClass = 'btn-success';
+        buttonGlyph = 'glyphicon-thumbs-up';
+        submitAction = '';
+        buttonSuffix = 'd';
+        addFlights = (
+          <button type="button" className="btn btn-info">
+            <span className="glyphicon glyphicon-plus"></span> Flights
+          </button>);
+        break;
+      default: 
+        buttonClass = 'btn-default';
+        buttonGlyph = 'glyphicon-ok';
+        submitAction = this.submitOrder;
     }
+
     return <div className="row">
         <form className="form-horizontal col-sm-12">
           <div className="row">
@@ -70,11 +80,9 @@ module.exports = React.createClass({
             <div className="col-sm-offset-2 col-sm-6">
               <div className="btn-group">
                 <button type="button" onClick={submitAction} className={'btn ' + buttonClass}>
-                  <span className={'glyphicon ' + buttonGlyph}></span> Create
+                  <span className={'glyphicon ' + buttonGlyph}></span> Create{buttonSuffix}
                 </button>
-                <button type="button" className="btn btn-info">
-                  <span className="glyphicon glyphicon-plus"></span> Flights
-                </button>
+                {addFlights}
               </div>
             </div>
           </div>
