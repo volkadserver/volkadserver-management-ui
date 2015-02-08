@@ -1,7 +1,7 @@
 var marty = require('marty');
 
 var orderConstants = marty.createConstants([
-  "GET_ALL_ORDERS",
+  "REFRESH_ORDERS",
   "RECEIVE_ORDERS",
   "CREATE_ORDER"
 ]);

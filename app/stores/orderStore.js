@@ -2,16 +2,20 @@ var marty = require('marty');
 
 var orderConstants = require('../constants/orderConstants');
 var orderApi = require('../sources/orderApi');
+var orderActionCreators = require('../actions/orderActionCreators');
 
 var orderStore = marty.createStore({
 
   handlers: {
     receiveOrders: orderConstants.RECEIVE_ORDERS,
-    createOrder: orderConstants.CREATE_ORDER
+    createOrder: orderConstants.CREATE_ORDER,
+    refreshOrders: orderConstants.REFRESH_ORDERS
   },
 
   getInitialState: function() {
-    return {};
+    orderActionCreators.refreshOrders();
+    
+    return { orders: {} };
   },
 
   receiveOrders: function(orders) {
@@ -36,17 +40,8 @@ var orderStore = marty.createStore({
     });
   },
 
-  getAllOrders: function() {
-    return this.fetch({
-      id: 'GET_ALL_ORDERS',
-      locally: function() { 
-        if(this.hasAlreadyFetched('GET_ALL_ORDERS'))
-          return this.state.orders;
-      },
-      remotely: function() {
-        return orderApi.getAllOrders();
-      }
-    });
+  refreshOrders: function() {
+    orderApi.getAllOrders();
   },
 
   createOrder: function(order, options) {

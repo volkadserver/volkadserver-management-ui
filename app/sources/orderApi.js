@@ -8,6 +8,7 @@ var orderApi = marty.createStateSource({
   getAllOrders: function() {
     return this.get('/Orders').then(function(res) {
       orderSourceActionCreators.receiveOrders(res.body);
+      return res.body;
     });
   },
 

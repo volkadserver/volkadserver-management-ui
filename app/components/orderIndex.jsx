@@ -6,14 +6,7 @@ var Link = require('react-router').Link;
 var marty = require('marty');
 var orderStore = require('../stores/orderStore.js');
 
-var orderStateMixin = marty.createStateMixin({
-  listenTo: orderStore,
-  getState: function() {
-    return {
-      orders: orderStore.getAllOrders()
-    };
-  }
-});
+var orderStateMixin = marty.createStateMixin(orderStore);
 
 var IndexItem = React.createClass({
   getInitialState: function() {
@@ -38,17 +31,9 @@ module.exports = React.createClass({
   mixins: [ orderStateMixin ],
 
   render: function() {
-    var indexItems = this.state.orders.when({
-      pending: function() { return <tr><td><strong> Pending... </strong></td></tr> },
-      failed: function(err) { 
-        return <strong> {err}  </strong> 
-      },
-      done: function(orders) { 
-        return _.map(orders, function(order, i) {
+    var indexItems =  _.map(this.state.orders, function(order, i) {
           return <IndexItem {...order} key={i} />;
         });
-      }
-    });
 
     return <div className="row">
         <table className="table table-hover table-condensed">
