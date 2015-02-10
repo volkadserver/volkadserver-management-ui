@@ -15,12 +15,14 @@ module.exports =  React.createClass({
               <Link to="trafficking" className="navbar-brand">Trafficking</Link>
             </div>
 
-            <Link className="btn btn-primary navbar-btn pull-right" to="create-order">
-              <span className="glyphicon glyphicon glyphicon-plus"></span> Create Order
-            </Link>
-            <Link className="btn btn-primary navbar-btn pull-right" to="create-advertiser">
-              <span className="glyphicon glyphicon glyphicon-plus"></span> Create Advertiser
-            </Link>
+            <span className="pull-right">
+              <Link className="btn btn-primary navbar-btn btn-sm" to="create-advertiser">
+                <span className="glyphicon glyphicon glyphicon-plus"></span> Advertiser
+              </Link>
+              <Link className="btn btn-primary navbar-btn btn-sm" to="create-order">
+                <span className="glyphicon glyphicon glyphicon-plus"></span> Order
+              </Link>
+            </span>
           </div>
         </nav>
         <div className="container-fluid">

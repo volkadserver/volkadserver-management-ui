@@ -19,7 +19,6 @@ var advertiserApi = marty.createStateSource({
   },
 
   createAdvertiser: function(advertiser) {
-    console.log(advertiser);
     return this.post({ url: '/Advertisers', body: advertiser, contentType: 'application/json' })
       .then(function(res) {
         advertiserSourceActionCreators.receiveAdvertisers([res.body]);
