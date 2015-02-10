@@ -5,6 +5,7 @@ var React = require('react');
 var orderActionCreators = require('../actions/orderActionCreators');
 var orderStore = require('../stores/orderStore');
 var CreateButton = require('./createButton.jsx');
+var CreateFlight = require('./createFlight.jsx');
 
 
 module.exports = React.createClass({
@@ -18,8 +19,8 @@ module.exports = React.createClass({
       { 
         pending: function() { this.setState({ status: 'pending' }); }.bind(this),
         error: function() { this.setState({ status: 'error' }); }.bind(this),
-        success: function() { 
-          this.setState({ status: 'success', saved: true }); 
+        success: function(order) { 
+          this.setState({ status: 'success', order: order }); 
         }.bind(this)
       }
     );
@@ -29,13 +30,24 @@ module.exports = React.createClass({
     this.setState({ name: e.target.value });
   },
 
-  render: function() {
-    var buttonClass, buttonGlyph, submitAction, buttonSuffix, addFlights;
+  addFlight: function() {
+    this.setState({ showFlightForm: true });
+  },
 
-    addFlights = (
-      <button type="button" className="btn btn-info">
-        <span className="glyphicon glyphicon-plus"></span> Flights
-      </button>);
+  render: function() {
+    var buttonClass, buttonGlyph, submitAction, buttonSuffix, addFlights, flightForm;
+
+    if(this.state.status == 'success' && this.state.order) {
+      addFlights = (
+        <button type="button" className="btn btn-info" onClick={this.addFlight}>
+          <span className="glyphicon glyphicon-plus"></span> Flights
+        </button>
+      );
+    }
+
+    if(this.state.showFlightForm) {
+      flightForm = <CreateFlight orderId={this.state.order.id} />
+    }
 
     return <div className="row">
         <form className="form-horizontal col-sm-12">
@@ -65,6 +77,7 @@ module.exports = React.createClass({
             </div>
           </div>
         </form>
+        {flightForm}
       </div>
   }
 });

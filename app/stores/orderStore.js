@@ -60,10 +60,12 @@ var orderStore = marty.createStore({
     if(typeof options.pending == 'function') options.pending();
     orderApi.createOrder(order)
       .then(function(res) {
-        if(typeof options.success == 'function') options.success();
+        if(typeof options.success == 'function') options.success(res.body);
+        return res;
       }.bind(order))
       .catch(function(er) {
         if(typeof options.error == 'function') options.error();
+        return res;
       });
   },
 

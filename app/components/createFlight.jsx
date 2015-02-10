@@ -18,7 +18,7 @@ module.exports = React.createClass({
   submitFlight: function() {
     orderActionCreators.createFlight(
       this.state, 
-      this.getParams().id,
+      this.props.orderId || this.getParams().id,
       { 
         pending: function() { this.setState({ status: 'pending' }); }.bind(this),
         error: function(err) { 
