@@ -19,7 +19,7 @@ module.exports = (
       <DefaultRoute handler={orderIndex} />
       <Route name="create-order" path="create" handler={createOrder} />
       <Route name="order" path="orders/:id" handler={order} />
-      <Route name="create-flight" path="15/create" handler={createFlight} />
+      <Route name="create-flight" path="orders/:id/create" handler={createFlight} />
     </Route>
     <Route name="reporting" handler={reporting} />
     <Route name="inventory" handler={inventory} />

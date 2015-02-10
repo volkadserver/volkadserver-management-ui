@@ -17,7 +17,6 @@ module.exports = React.createClass({
   mixins: [ routerState, orderStateMixin ],
   
   render: function() {
-    console.log(orderStore);
     return this.state.when({
       pending: function() { return <div className="row">Pending</div> },
       failed: function(err) { return <div className="row">{err}</div> },
@@ -26,7 +25,7 @@ module.exports = React.createClass({
           <div className="page-header">
             <h1>{order.name} <small>Order {order.id}</small></h1>
           </div>
-          <Link to="create-flight" className="btn btn-info">
+          <Link to="create-flight" params={{ id: order.id }} className="btn btn-info">
             <span className="glyphicon glyphicon-plus"></span> Flights
           </Link>
         </div>

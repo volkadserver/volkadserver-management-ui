@@ -8,7 +8,9 @@ var orderStore = marty.createStore({
 
   handlers: {
     receiveOrders: orderConstants.RECEIVE_ORDERS,
+    receiveFlights: orderConstants.RECEIVE_FLIGHTS,
     createOrder: orderConstants.CREATE_ORDER,
+    createFlight: orderConstants.CREATE_FLIGHT,
     refreshOrders: orderConstants.REFRESH_ORDERS
   },
 
@@ -22,6 +24,16 @@ var orderStore = marty.createStore({
     this.state.orders = this.state.orders || {};
     orders.forEach(function(order) {
       this.state.orders[order.id] = order;
+    }, this);
+    
+    this.hasChanged();
+
+  },
+
+  receiveFlights: function(flights, orderId) {
+    this.state.orders[orderId] = this.state.orders[orderId] || {};
+    flights.forEach(function(flight) {
+      this.state.orders[orderId][flight.id] = flight;
     }, this);
     
     this.hasChanged();
@@ -52,6 +64,19 @@ var orderStore = marty.createStore({
       }.bind(order))
       .catch(function(er) {
         if(typeof options.error == 'function') options.error();
+      });
+  },
+
+  createFlight: function(flight, orderId, options) {
+    if(typeof options.pending == 'function') options.pending();
+    orderApi.createFlight(flight, orderId)
+      .then(function(res) {
+        if(typeof options.success == 'function') options.success();
+        return res;
+      }.bind(flight))
+      .catch(function(er) {
+        if(typeof options.error == 'function') options.error();
+        return res;
       });
   }
 });

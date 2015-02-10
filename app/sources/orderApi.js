@@ -24,6 +24,14 @@ var orderApi = marty.createStateSource({
         orderSourceActionCreators.receiveOrders([res.body]);
         return res;
       });
+  },
+
+  createFlight: function(flight, orderId, options) {
+    return this.post({ url: '/Orders/'+orderId+'/flights', body: flight, contentType: 'application/json' })
+      .then(function(res) {
+        orderSourceActionCreators.receiveFlights([res.body], orderId);
+        return res;
+      })
   }
 });
 
