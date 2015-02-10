@@ -18,6 +18,9 @@ module.exports =  React.createClass({
             <Link className="btn btn-primary navbar-btn pull-right" to="create-order">
               <span className="glyphicon glyphicon glyphicon-plus"></span> Create Order
             </Link>
+            <Link className="btn btn-primary navbar-btn pull-right" to="create-advertiser">
+              <span className="glyphicon glyphicon glyphicon-plus"></span> Create Advertiser
+            </Link>
           </div>
         </nav>
         <div className="container-fluid">

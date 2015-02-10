@@ -10,6 +10,7 @@ var App = require('./components/app.jsx'),
     createOrder = require('./components/createOrder.jsx'),
     order = require('./components/order.jsx'),
     createFlight = require('./components/createFlight.jsx'),
+    createAdvertiser = require('./components/createAdvertiser.jsx'),
     reporting = require('./components/reporting.jsx'),
     inventory = require('./components/inventory.jsx');
 
@@ -17,7 +18,8 @@ module.exports = (
   <Route handler={App}>
     <Route name="trafficking" handler={trafficking}>
       <DefaultRoute handler={orderIndex} />
-      <Route name="create-order" path="create" handler={createOrder} />
+      <Route name="create-order" path="orders/create" handler={createOrder} />
+      <Route name="create-advertiser" path="advertisers/create" handler={createAdvertiser} />
       <Route name="order" path="orders/:id" handler={order} />
       <Route name="create-flight" path="orders/:id/create" handler={createFlight} />
     </Route>
