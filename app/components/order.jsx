@@ -23,11 +23,12 @@ module.exports = React.createClass({
       done: function(order) {
         return <div className="row">
           <div className="page-header">
-            <h1>{order.name} <small>Order {order.id}</small></h1>
+            <h1>{order.name} <small>Order {order.id}</small>
+            <Link to="create-flight" params={{ id: order.id }} className="btn btn-info pull-right">
+              <span className="glyphicon glyphicon-plus"></span> Flights
+            </Link>
+          </h1>
           </div>
-          <Link to="create-flight" params={{ id: order.id }} className="btn btn-info">
-            <span className="glyphicon glyphicon-plus"></span> Flights
-          </Link>
         </div>
       }
     });
