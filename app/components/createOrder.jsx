@@ -4,6 +4,7 @@ var React = require('react');
 
 var orderActionCreators = require('../actions/orderActionCreators');
 var orderStore = require('../stores/orderStore');
+var CreateButton = require('./createButton.jsx');
 
 
 module.exports = React.createClass({
@@ -31,33 +32,10 @@ module.exports = React.createClass({
   render: function() {
     var buttonClass, buttonGlyph, submitAction, buttonSuffix, addFlights;
 
-    switch(this.state.status) {
-      case 'pending':
-        buttonClass = 'btn-warning';
-        buttonGlyph = 'glyphicon-refresh';
-        submitAction = '';
-        buttonSuffix = 'ing';
-        break;
-      case 'error':
-        buttonClass = 'btn-danger';
-        buttonGlyph = 'glyphicon-flash';
-        submitAction = '';
-        buttonSuffix = '';
-      case 'success':
-        buttonClass = 'btn-success';
-        buttonGlyph = 'glyphicon-thumbs-up';
-        submitAction = '';
-        buttonSuffix = 'd';
-        addFlights = (
-          <button type="button" className="btn btn-info">
-            <span className="glyphicon glyphicon-plus"></span> Flights
-          </button>);
-        break;
-      default: 
-        buttonClass = 'btn-default';
-        buttonGlyph = 'glyphicon-ok';
-        submitAction = this.submitOrder;
-    }
+    addFlights = (
+      <button type="button" className="btn btn-info">
+        <span className="glyphicon glyphicon-plus"></span> Flights
+      </button>);
 
     return <div className="row">
         <form className="form-horizontal col-sm-12">
@@ -79,9 +57,9 @@ module.exports = React.createClass({
           <div className="form-group">
             <div className="col-sm-offset-2 col-sm-6">
               <div className="btn-group">
-                <button type="button" onClick={submitAction} className={'btn ' + buttonClass}>
-                  <span className={'glyphicon ' + buttonGlyph}></span> Create{buttonSuffix}
-                </button>
+                <CreateButton 
+                  onSubmit={this.submitOrder} 
+                  status={this.state.status} />
                 {addFlights}
               </div>
             </div>

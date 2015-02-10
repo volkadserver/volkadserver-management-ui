@@ -5,6 +5,7 @@ var Router = require('react-router');
 
 var orderActionCreators = require('../actions/orderActionCreators');
 var orderStore = require('../stores/orderStore');
+var CreateButton = require('./createButton.jsx');
 
 
 module.exports = React.createClass({
@@ -37,33 +38,6 @@ module.exports = React.createClass({
   },
 
   render: function() {
-    var buttonClass, buttonGlyph, submitAction, buttonSuffix;
-
-    switch(this.state.status) {
-      case 'pending':
-        buttonClass = 'btn-warning';
-        buttonGlyph = 'glyphicon-refresh';
-        submitAction = '';
-        buttonSuffix = 'ing';
-        break;
-      case 'error':
-        buttonClass = 'btn-danger';
-        buttonGlyph = 'glyphicon-flash';
-        submitAction = '';
-        buttonSuffix = '';
-        break;
-      case 'success':
-        buttonClass = 'btn-success';
-        buttonGlyph = 'glyphicon-thumbs-up';
-        submitAction = '';
-        buttonSuffix = 'd';
-        break;
-      default: 
-        buttonClass = 'btn-default';
-        buttonGlyph = 'glyphicon-ok';
-        submitAction = this.submitFlight;
-    }
-
     return <div className="row">
         <form className="form-horizontal col-sm-12">
           <div className="row">
@@ -117,9 +91,9 @@ module.exports = React.createClass({
           <div className="form-group">
             <div className="col-sm-offset-2 col-sm-6">
               <div className="btn-group">
-                <button type="button" onClick={submitAction} className={'btn ' + buttonClass}>
-                  <span className={'glyphicon ' + buttonGlyph}></span> Create{buttonSuffix}
-                </button>
+                <CreateButton 
+                  onSubmit={this.submitFlight} 
+                  status={this.state.status} />
               </div>
             </div>
           </div>
