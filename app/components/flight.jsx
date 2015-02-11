@@ -4,6 +4,7 @@ var React = require('react');
 var marty = require('marty');
 var orderStore = require('../stores/orderStore.js');
 var routerState = require('react-router').State;
+var Link = require('react-router').Link;
 var _ = require('lodash');
 
 var orderStateMixin = marty.createStateMixin({
@@ -24,8 +25,14 @@ module.exports = React.createClass({
       done: function(flight) {
         return <div className="row">
           <div className="page-header">
-            <h1>{flight.name} <small>flight {flight.id}</small>
-          </h1>
+            <h1>
+              {flight.name + ' '}
+              <small>
+                <Link params={{ id: flight.orderID }} to="order">
+                  belongs to Order #{flight.orderID}
+                </Link>
+              </small>
+            </h1>
           </div>
         </div>
       }
