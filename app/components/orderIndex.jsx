@@ -32,7 +32,8 @@ module.exports = React.createClass({
 
   render: function() {
     var indexItems =  _.map(this.state.orders, function(order, i) {
-          return <IndexItem {...order} key={i} />;
+          if(typeof order.id !== 'undefined')
+            return <IndexItem {...order} key={i} />;
         });
 
     return <div className="row">

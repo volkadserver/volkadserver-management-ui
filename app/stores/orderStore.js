@@ -26,18 +26,15 @@ var orderStore = marty.createStore({
     this.setState({ orders: _.merge(this.state.orders, _.indexBy(orders, 'id')) });
   },
 
-  receiveFlights: function(flights, orderId) {
+  receiveFlights: function(flights) {
     this.state.orders = this.state.orders || {};
-    flights.forEach(function(flight) {
-      if(this.state.orders[flight.orderID]) {
-        this.state.orders[flight.orderID].flights = this.state.orders[flight.orderID].flights || {};
-        this.state.orders[flight.orderID].flights[flight.id] = flight;
-      }
-    }, this);
-    console.log(this.state.orders);
-    
-    this.hasChanged();
+    flights = _.groupBy(flights, 'orderID');
+    var orders = {};
+    _.forEach(flights, function(orderFlights, orderId) {
+      orders[orderId] = { flights: _.indexBy(orderFlights, 'id') };
+    });
 
+    this.setState({ orders: _.merge(this.state.orders, orders) });
   },
 
   getOrder: function(id) {
@@ -48,6 +45,22 @@ var orderStore = marty.createStore({
       },
       remotely: function() {
         return orderApi.getOrder(id);
+      }
+    });
+  },
+
+  getFlight: function(orderId, id) {
+    return this.fetch({
+      id: 'GET_FLIGHT',
+      locally: function() {
+        if(this.state.orders) {
+          var a = this.state.orders[orderId] 
+            ? this.state.orders[orderId].flights[id] : undefined;
+          return a;
+        }
+      },
+      remotely: function() {
+        return orderApi.getFlight(orderId, id);
       }
     });
   },
