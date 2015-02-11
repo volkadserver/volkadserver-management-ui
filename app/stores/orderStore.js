@@ -1,4 +1,5 @@
 var marty = require('marty');
+var _ = require('lodash');
 
 var orderConstants = require('../constants/orderConstants');
 var orderApi = require('../sources/orderApi');
@@ -22,19 +23,18 @@ var orderStore = marty.createStore({
 
   receiveOrders: function(orders) {
     this.state.orders = this.state.orders || {};
-    orders.forEach(function(order) {
-      this.state.orders[order.id] = order;
-    }, this);
-    
-    this.hasChanged();
-
+    this.setState({ orders: _.merge(this.state.orders, _.indexBy(orders, 'id')) });
   },
 
   receiveFlights: function(flights, orderId) {
-    this.state.orders[orderId] = this.state.orders[orderId] || {};
+    this.state.orders = this.state.orders || {};
     flights.forEach(function(flight) {
-      this.state.orders[orderId][flight.id] = flight;
+      if(this.state.orders[flight.orderID]) {
+        this.state.orders[flight.orderID].flights = this.state.orders[flight.orderID].flights || {};
+        this.state.orders[flight.orderID].flights[flight.id] = flight;
+      }
     }, this);
+    console.log(this.state.orders);
     
     this.hasChanged();
 
@@ -53,6 +53,7 @@ var orderStore = marty.createStore({
   },
 
   refreshOrders: function() {
+    orderApi.getAllFlights();
     orderApi.getAllOrders();
   },
 

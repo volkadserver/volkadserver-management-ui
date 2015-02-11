@@ -12,6 +12,13 @@ var orderApi = marty.createStateSource({
     });
   },
 
+  getAllFlights: function() {
+    return this.get('/Flights').then(function(res) {
+      orderSourceActionCreators.receiveFlights(res.body);
+      return res.body;
+    });
+  },
+
   getOrder: function(id) {
     return this.get('/Orders/' + id).then(function(res) {
       orderSourceActionCreators.receiveOrders([res.body]);
