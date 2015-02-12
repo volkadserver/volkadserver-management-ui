@@ -37,7 +37,7 @@ module.exports = React.createClass({
         submitAction = this.props.onSubmit;
     }
 
-    return  <button type="button" 
+    return  <button type="submit" 
               onClick={submitAction} 
               className={'btn ' + buttonClass}>
               <span className={'glyphicon ' + buttonGlyph}></span> 
