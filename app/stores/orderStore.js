@@ -87,11 +87,11 @@ var orderStore = marty.createStore({
     if(typeof options.pending == 'function') options.pending();
     orderApi.createFlight(flight, orderId)
       .then(function(res) {
-        if(typeof options.success == 'function') options.success();
+        if(typeof options.success == 'function') options.success(res.body);
         return res;
       }.bind(flight))
       .catch(function(er) {
-        if(typeof options.error == 'function') options.error();
+        if(typeof options.error == 'function') options.error(er);
         return res;
       });
   }

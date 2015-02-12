@@ -9,10 +9,19 @@ var CreateButton = require('./createButton.jsx');
 
 
 module.exports = React.createClass({
-  mixins: [ Router.State ],
+  mixins: [ Router.State, Router.Navigation ],
 
   getInitialState: function() {
     return { name: '' };
+  },
+
+  onSaveSuccess: function(flight) {
+    if(typeof this.props.onSaveSuccess === 'function') {
+      this.props.onSaveSuccess.bind(this, flight);
+    }
+    else {
+      this.transitionTo('order', { id: flight.orderID });
+    }
   },
 
   submitFlight: function() {
@@ -22,10 +31,12 @@ module.exports = React.createClass({
       { 
         pending: function() { this.setState({ status: 'pending' }); }.bind(this),
         error: function(err) { 
+          console.log(err);
           this.setState({ status: 'error' });
         }.bind(this),
-        success: function() { 
+        success: function(flight) { 
           this.setState({ status: 'success', saved: true }); 
+          this.onSaveSuccess(flight);
         }.bind(this)
       }
     );
