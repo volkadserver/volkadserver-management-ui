@@ -26,8 +26,10 @@ module.exports = React.createClass({
     );
   },
 
-  onChangeName: function(e) {
-    this.setState({ name: e.target.value });
+  onChange: function(val, e) {
+    var change = {};
+    change[val] = e.target.value;
+    this.setState(change);
   },
 
   addFlight: function() {
@@ -60,10 +62,27 @@ module.exports = React.createClass({
               <input type="text" 
                 className="form-control" id="newOrderName" 
                 placeholder="New Order Name" 
-                value={this.state.name} onChange={this.onChangeName} />
+                value={this.state.name} onChange={this.onChange.bind(this, name)} />
             </div>
             <p className="col-sm-4">
               This is some tip that helps with the stuff. I don't know how long it'll be really. We'll see.
+            </p>
+          </div>
+          <div className="form-group">
+            <label form="newOrderAdvertiser" className="control-label col-sm-2">Advertiser</label>
+            <div className="col-sm-6">
+              <div className="input-group">
+              <input type="text" 
+                className="form-control" id="newOrderAdvertiser" 
+                placeholder="Advertiser" 
+                value={this.state.advertiser} onChange={this.onChange.advertiser} />
+              <span className="input-group-btn">
+                <button className="btn btn-default" type="button">Add Advertiser</button>
+              </span>
+            </div>
+            </div>
+            <p className="col-sm-4">
+              All flights in this order are associated with a single buyer.
             </p>
           </div>
           <div className="form-group">
