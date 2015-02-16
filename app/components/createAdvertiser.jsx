@@ -15,6 +15,13 @@ module.exports = React.createClass({
     return { name: '' };
   },
 
+  onSaveSuccess: function() {
+    
+
+    if(typeof this.props.onSaveSuccess === 'function')
+      this.props.onSaveSuccess(this.state);
+  },
+
   submitAdvertiser: function() {
     advertiserActionCreators.createAdvertiser(
       this.state, 
@@ -25,6 +32,7 @@ module.exports = React.createClass({
         }.bind(this),
         success: function() { 
           this.setState({ status: 'success', saved: true }); 
+          this.onSaveSuccess();
         }.bind(this)
       }
     );

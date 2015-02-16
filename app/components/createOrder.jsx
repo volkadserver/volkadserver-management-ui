@@ -6,6 +6,7 @@ var orderActionCreators = require('../actions/orderActionCreators');
 var orderStore = require('../stores/orderStore');
 var CreateButton = require('./createButton.jsx');
 var CreateFlight = require('./createFlight.jsx');
+var CreateAdvertiser = require('./createAdvertiser.jsx');
 
 
 module.exports = React.createClass({
@@ -36,8 +37,16 @@ module.exports = React.createClass({
     this.setState({ showFlightForm: true });
   },
 
+  addAdvertiser: function() {
+    this.setState({ showAdvertiserForm: true});
+  },
+
+  onSaveAdvertiser: function(advertiser) {
+    this.setState({ advertiser: advertiser.name, showAdvertiserForm: false });
+  },
+
   render: function() {
-    var buttonClass, buttonGlyph, submitAction, buttonSuffix, addFlights, flightForm;
+    var buttonClass, buttonGlyph, submitAction, buttonSuffix, addFlights, flightForm, advertiserForm;
 
     if(this.state.status == 'success' && this.state.order) {
       addFlights = (
@@ -51,6 +60,10 @@ module.exports = React.createClass({
       flightForm = <CreateFlight orderId={this.state.order.id} />
     }
 
+    if(this.state.showAdvertiserForm) 
+      advertiserForm = <CreateAdvertiser onSaveSuccess={this.onSaveAdvertiser} />
+      
+
     return <div className="row">
         <form className="form-horizontal col-sm-12">
           <div className="row">
@@ -62,7 +75,7 @@ module.exports = React.createClass({
               <input type="text" 
                 className="form-control" id="newOrderName" 
                 placeholder="New Order Name" 
-                value={this.state.name} onChange={this.onChange.bind(this, name)} />
+                value={this.state.name} onChange={this.onChange.bind(this, 'name')} />
             </div>
             <p className="col-sm-4">
               This is some tip that helps with the stuff. I don't know how long it'll be really. We'll see.
@@ -72,19 +85,20 @@ module.exports = React.createClass({
             <label form="newOrderAdvertiser" className="control-label col-sm-2">Advertiser</label>
             <div className="col-sm-6">
               <div className="input-group">
-              <input type="text" 
-                className="form-control" id="newOrderAdvertiser" 
-                placeholder="Advertiser" 
-                value={this.state.advertiser} onChange={this.onChange.advertiser} />
-              <span className="input-group-btn">
-                <button className="btn btn-default" type="button">Add Advertiser</button>
-              </span>
-            </div>
+                <input type="text" 
+                  className="form-control" id="newOrderAdvertiser" 
+                  placeholder="Advertiser" 
+                  value={this.state.advertiser} onChange={this.onChange.bind(this, 'advertiser')} />
+                <span className="input-group-btn">
+                  <button className="btn btn-default" type="button" onClick={this.addAdvertiser}>Add Advertiser</button>
+                </span>
+              </div>
             </div>
             <p className="col-sm-4">
               All flights in this order are associated with a single buyer.
             </p>
           </div>
+          {advertiserForm}
           <div className="form-group">
             <div className="col-sm-offset-2 col-sm-6">
               <div className="btn-group">
