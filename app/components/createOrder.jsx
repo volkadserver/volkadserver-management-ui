@@ -44,7 +44,11 @@ module.exports = React.createClass({
   },
 
   onSaveAdvertiser: function(advertiser) {
-    this.setState({ advertiser: advertiser.name, showAdvertiserForm: false });
+    this.setState({ advertiser: advertiser, showAdvertiserForm: false });
+  },
+
+  onSelectAdvertiser: function(advertiser) {
+    this.setState({ advertiser: advertiser });
   },
 
   render: function() {
@@ -87,7 +91,12 @@ module.exports = React.createClass({
             <label form="newOrderAdvertiser" className="control-label col-sm-2">Advertiser</label>
             <div className="col-sm-6">
               <div className="input-group">
-                <Autocomplete options={advertiserStore.state.advertisers} />
+                <Autocomplete 
+                  ref="advertiserAutocomplete" 
+                  value={this.state.advertiser}
+                  valueLabel="name"
+                  onSelect={this.onSelectAdvertiser}
+                  options={advertiserStore.state.advertisers} />
                 <span className="input-group-btn">
                   <button className="btn btn-default" type="button" onClick={this.addAdvertiser}>Add Advertiser</button>
                 </span>

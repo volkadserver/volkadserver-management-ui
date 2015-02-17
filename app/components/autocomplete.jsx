@@ -7,19 +7,31 @@ var lastKeyDown;
 
 module.exports = React.createClass({
   getInitialState: function() {
-    return { input: '', bestMatch: { name: '' } }
+    var initialValue = this.props.value 
+      ? this.props.value[this.props.valueLabel] : '';
+
+    return { 
+      bestMatch: { name: '' },
+      value: initialValue
+    }
   },
 
-  handleClick: function(val) {
-    this.setState({ input: val });
+  handleBlur: function() {
+    var DOMVal = this.getDOMNode().value;
+    this.setState({ value: DOMVal });
+    var isMatched = _.find(this.props.options, function(option) {
+      return option.name == DOMVal;
+    }, this);
+    if(isMatched && typeof this.props.onSelect === 'function')
+      this.props.onSelect(this.state.bestMatch);
   },
 
   handleKeyDown: function(e) {
     var node = this.refs.field.getDOMNode();
-    var input = node.value;
+    var value = node.value;
     if(e.keyCode === 8) {
       lastKeyDown = 8;
-      this.setState({ bestMatch: { name: this.state.input } });
+      this.setState({ bestMatch: { name: this.state.value } });
       return;
     }
     if(e.keyCode === 13) {
@@ -31,35 +43,35 @@ module.exports = React.createClass({
 
   handleChange: function(e) {
     var node = this.refs.field.getDOMNode();
-    var input = node.value;
-    input = input.slice(0, node.selectionStart);
+    var value = node.value;
+    value = value.slice(0, node.selectionStart);
 
-    var bestMatch = { name: input };
+    var bestMatch = { name: value };
     if(lastKeyDown === 8)
       lastKeyDown = undefined;
     else 
-      bestMatch = this.getBestMatch(input);
+      bestMatch = this.getBestMatch(value);
 
     this.setState(
-      { input: input, bestMatch: bestMatch },
+      { value: value, bestMatch: bestMatch },
       function() {
-        this.getDOMNode().setSelectionRange(input.length, bestMatch.name.length);
+        this.getDOMNode().setSelectionRange(value.length, bestMatch.name.length);
+        if(typeof this.props.onChange == 'function')
+          this.props.onChange(value);
       }
     );
   },
 
-  getBestMatch: function(input) {
+  getBestMatch: function(value) {
     return _.find(this.props.options, function(option) { 
-      return option.name.lastIndexOf(input, 0) === 0;
-    }) || { name: input };
+      return option.name.lastIndexOf(value, 0) === 0;
+    }) || { name: value };
   },
 
   render: function() {
     return <input ref='field'
+          onBlur={this.handleBlur}
           type="text"
-          selectionStart={this.state.input.length}
-          selectionDirection="backward"
-          selectionEnd={this.state.bestMatch.name.length}
           className="form-control" id="newOrderAdvertiser" 
           onKeyDown={this.handleKeyDown}
           onChange={this.handleChange} value={this.state.bestMatch.name} />
