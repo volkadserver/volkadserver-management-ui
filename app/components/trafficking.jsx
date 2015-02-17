@@ -26,6 +26,11 @@ module.exports =  React.createClass({
           </div>
         </nav>
         <div className="container-fluid">
+          <div className="row">
+            <Link className="btn btn-link pull-right" to="advertiser-index">
+              Advertisers
+            </Link>
+          </div>
           <RouteHandler />
         </div>
       </div>
