@@ -27,6 +27,9 @@ module.exports =  React.createClass({
         </nav>
         <div className="container-fluid">
           <div className="row">
+            <Link className="btn btn-link pull-right" to="order-index">
+              Orders
+            </Link>
             <Link className="btn btn-link pull-right" to="advertiser-index">
               Advertisers
             </Link>
