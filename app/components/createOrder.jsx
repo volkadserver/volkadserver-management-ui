@@ -43,6 +43,10 @@ module.exports = React.createClass({
     this.setState({ showAdvertiserForm: true});
   },
 
+  onSaveFlight: function(flight) {
+    this.setState({ showFlightForm: false });
+  },
+
   onSaveAdvertiser: function(advertiser) {
     this.setState({ advertiser: advertiser, showAdvertiserForm: false });
   },
@@ -63,7 +67,7 @@ module.exports = React.createClass({
     }
 
     if(this.state.showFlightForm) {
-      flightForm = <CreateFlight orderId={this.state.order.id} />
+      flightForm = <CreateFlight onSaveSuccess={this.onSaveFlight} orderId={this.state.order.id} />
     }
 
     if(this.state.showAdvertiserForm) 

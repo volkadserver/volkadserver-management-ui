@@ -17,7 +17,7 @@ module.exports = React.createClass({
 
   onSaveSuccess: function(flight) {
     if(typeof this.props.onSaveSuccess === 'function') {
-      this.props.onSaveSuccess.bind(this, flight);
+      this.props.onSaveSuccess(flight);
     }
     else {
       this.transitionTo('order', { id: flight.orderID });
