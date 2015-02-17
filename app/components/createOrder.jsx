@@ -2,6 +2,7 @@
 
 var React = require('react');
 var _ = require('lodash');
+var Link = require('react-router').Link;
 
 var Autocomplete = require('./autocomplete.jsx');
 var orderActionCreators = require('../actions/orderActionCreators');
@@ -57,7 +58,9 @@ module.exports = React.createClass({
   },
 
   render: function() {
-    var buttonClass, buttonGlyph, submitAction, buttonSuffix, addFlights, flightForm, advertiserForm;
+    var buttonClass, buttonGlyph, submitAction, 
+        buttonSuffix, addFlights, flightForm, 
+        advertiserForm, goToOrder;
 
     if(this.state.status == 'success' && typeof this.state.id !== 'undefined') {
       addFlights = (
@@ -65,6 +68,9 @@ module.exports = React.createClass({
           <span className="glyphicon glyphicon-plus"></span> Flights
         </button>
       );
+      goToOrder = <Link to="order" params={{ id: this.state.id }} className="btn btn-link">
+        Go to Order
+      </Link>
     }
 
     if(this.state.showFlightForm) {
@@ -122,6 +128,7 @@ module.exports = React.createClass({
                   status={this.state.status} />
                 {addFlights}
               </div>
+              {goToOrder}
             </div>
           </div>
         </form>
