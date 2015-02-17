@@ -2,8 +2,10 @@
 
 var React = require('react');
 
+var Autocomplete = require('./autocomplete.jsx');
 var orderActionCreators = require('../actions/orderActionCreators');
 var orderStore = require('../stores/orderStore');
+var advertiserStore = require('../stores/advertiserStore');
 var CreateButton = require('./createButton.jsx');
 var CreateFlight = require('./createFlight.jsx');
 var CreateAdvertiser = require('./createAdvertiser.jsx');
@@ -85,10 +87,7 @@ module.exports = React.createClass({
             <label form="newOrderAdvertiser" className="control-label col-sm-2">Advertiser</label>
             <div className="col-sm-6">
               <div className="input-group">
-                <input type="text" 
-                  className="form-control" id="newOrderAdvertiser" 
-                  placeholder="Advertiser" 
-                  value={this.state.advertiser} onChange={this.onChange.bind(this, 'advertiser')} />
+                <Autocomplete options={advertiserStore.state.advertisers} />
                 <span className="input-group-btn">
                   <button className="btn btn-default" type="button" onClick={this.addAdvertiser}>Add Advertiser</button>
                 </span>
