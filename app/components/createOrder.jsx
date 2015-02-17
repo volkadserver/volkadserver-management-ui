@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require('react');
+var _ = require('lodash');
 
 var Autocomplete = require('./autocomplete.jsx');
 var orderActionCreators = require('../actions/orderActionCreators');
@@ -23,7 +24,7 @@ module.exports = React.createClass({
         pending: function() { this.setState({ status: 'pending' }); }.bind(this),
         error: function() { this.setState({ status: 'error' }); }.bind(this),
         success: function(order) { 
-          this.setState({ status: 'success', order: order }); 
+          this.replaceState(_.merge(this.state, order, { status: 'success' }));
         }.bind(this)
       }
     );
@@ -58,7 +59,7 @@ module.exports = React.createClass({
   render: function() {
     var buttonClass, buttonGlyph, submitAction, buttonSuffix, addFlights, flightForm, advertiserForm;
 
-    if(this.state.status == 'success' && this.state.order) {
+    if(this.state.status == 'success' && typeof this.state.id !== 'undefined') {
       addFlights = (
         <button type="button" className="btn btn-info" onClick={this.addFlight}>
           <span className="glyphicon glyphicon-plus"></span> Flights
@@ -67,7 +68,7 @@ module.exports = React.createClass({
     }
 
     if(this.state.showFlightForm) {
-      flightForm = <CreateFlight onSaveSuccess={this.onSaveFlight} orderId={this.state.order.id} />
+      flightForm = <CreateFlight onSaveSuccess={this.onSaveFlight} orderId={this.state.id} />
     }
 
     if(this.state.showAdvertiserForm) 
