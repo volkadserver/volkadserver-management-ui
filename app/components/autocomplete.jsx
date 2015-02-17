@@ -10,17 +10,28 @@ module.exports = React.createClass({
     var initialValue = this.props.value 
       ? this.props.value[this.props.valueLabel] : '';
 
+    var fauxBest = {};
+    fauxBest[this.props.valueLabel] = '';
     return { 
-      bestMatch: { name: '' },
+      bestMatch: fauxBest,
       value: initialValue
     }
+  },
+
+  setOption: function(option) {
+    var bestMatch = this.getBestMatch(option[this.props.valueLabel]);
+    if(bestMatch)
+      this.setState({ 
+        value: bestMatch[this.props.valueLabel], 
+        bestMatch: bestMatch
+      });
   },
 
   handleBlur: function() {
     var DOMVal = this.getDOMNode().value;
     this.setState({ value: DOMVal });
     var isMatched = _.find(this.props.options, function(option) {
-      return option.name == DOMVal;
+      return option[this.props.valueLabel] == DOMVal;
     }, this);
     if(isMatched && typeof this.props.onSelect === 'function')
       this.props.onSelect(this.state.bestMatch);
@@ -31,7 +42,9 @@ module.exports = React.createClass({
     var value = node.value;
     if(e.keyCode === 8) {
       lastKeyDown = 8;
-      this.setState({ bestMatch: { name: this.state.value } });
+      var best = {};
+      best[this.props.valueLabel] =  this.state.value
+      this.setState({ bestMatch: best });
       return;
     }
     if(e.keyCode === 13) {
@@ -46,7 +59,8 @@ module.exports = React.createClass({
     var value = node.value;
     value = value.slice(0, node.selectionStart);
 
-    var bestMatch = { name: value };
+    var bestMatch = {};
+    bestMatch[this.props.valueLabel] = value;
     if(lastKeyDown === 8)
       lastKeyDown = undefined;
     else 
@@ -55,7 +69,7 @@ module.exports = React.createClass({
     this.setState(
       { value: value, bestMatch: bestMatch },
       function() {
-        this.getDOMNode().setSelectionRange(value.length, bestMatch.name.length);
+        this.getDOMNode().setSelectionRange(value.length, bestMatch[this.props.valueLabel].length);
         if(typeof this.props.onChange == 'function')
           this.props.onChange(value);
       }
@@ -63,12 +77,16 @@ module.exports = React.createClass({
   },
 
   getBestMatch: function(value) {
+    var bestMatch = {};
+    bestMatch[this.props.valueLabel] = {};
+    
     return _.find(this.props.options, function(option) { 
-      return option.name.lastIndexOf(value, 0) === 0;
-    }) || { name: value };
+      return option[this.props.valueLabel].lastIndexOf(value, 0) === 0;
+    }, this) || bestMatch;
   },
 
   render: function() {
+    console.log('rendering', this.props, this.state);
     return <input ref='field'
           onBlur={this.handleBlur}
           type="text"

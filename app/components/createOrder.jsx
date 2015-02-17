@@ -51,6 +51,7 @@ module.exports = React.createClass({
 
   onSaveAdvertiser: function(advertiser) {
     this.setState({ advertiser: advertiser, showAdvertiserForm: false });
+    this.refs.advertiserAutocomplete.setOption(advertiser);
   },
 
   onSelectAdvertiser: function(advertiser) {
