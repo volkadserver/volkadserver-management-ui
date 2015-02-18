@@ -1,13 +1,17 @@
 # volkadserver-management-ui
-A static javascript application that interfaces with volk ad server apis
+A static javascript application that interfaces with volk ad server apis. Built as an interface for `volkadserver-traffic-api`.
+
+https://github.com/volkadserver/volkadserver-reporting-api
 
 ### Contribute 
 ##### Getting started 
 
 1. Clone repo `` git clone http://github.com/volkadserver/volkadserver-management-ui ``
 2. Get dependencies `` npm install ``
-3. Compile to view `` gulp ``
+3. Compile `` gulp ``
 4. Play
+
+
 
 ##### Submission
 
