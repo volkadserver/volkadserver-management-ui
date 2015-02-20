@@ -78,7 +78,7 @@ module.exports = React.createClass({
 
   getBestMatch: function(value) {
     var bestMatch = {};
-    bestMatch[this.props.valueLabel] = {};
+    bestMatch[this.props.valueLabel] = value;
     
     return _.find(this.props.options, function(option) { 
       return option[this.props.valueLabel].lastIndexOf(value, 0) === 0;
@@ -86,7 +86,6 @@ module.exports = React.createClass({
   },
 
   render: function() {
-    console.log('rendering', this.props, this.state);
     return <input ref='field'
           onBlur={this.handleBlur}
           type="text"
