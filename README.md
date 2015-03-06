@@ -1,7 +1,7 @@
 # volkadserver-management-ui
 A static javascript application that interfaces with volk ad server apis. Built as an interface for `volkadserver-traffic-api`.
 
-https://github.com/volkadserver/volkadserver-reporting-api
+https://github.com/volkadserver/volkadserver-traffic-api
 
 ### Contribute 
 ##### Getting started 
