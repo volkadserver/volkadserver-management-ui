@@ -6,7 +6,6 @@ var Link = require('react-router').Link;
 module.exports = React.createClass({
 
   render: function() {
-    console.log(this.props);
     return (
       <tr>
         <td>{this.props.id}</td>

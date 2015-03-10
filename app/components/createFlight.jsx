@@ -20,7 +20,6 @@ module.exports = React.createClass({
       this.props.onSaveSuccess(flight);
     }
     else {
-      console.log(flight);
       this.transitionTo('order', { id: flight.orderId });
     }
   },
