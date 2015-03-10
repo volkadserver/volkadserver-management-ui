@@ -27,14 +27,21 @@ module.exports = React.createClass({
       });
   },
 
-  handleBlur: function() {
-    var DOMVal = this.getDOMNode().value;
-    this.setState({ value: DOMVal });
+  shouldComponentUpdate: function(nextProps, nextState) {
+    return nextProps.value != nextState.bestMatch.id;
+  },
+
+  componentDidUpdate: function(nextProps, nextState) {
     var isMatched = _.find(this.props.options, function(option) {
-      return option[this.props.valueLabel] == DOMVal;
+      return option[this.props.valueLabel] == this.state.value;
     }, this);
     if(isMatched && typeof this.props.onSelect === 'function')
       this.props.onSelect(this.state.bestMatch);
+  },
+
+  handleBlur: function() {
+    var DOMVal = this.getDOMNode().value;
+    this.setState({ value: DOMVal });
   },
 
   handleKeyDown: function(e) {
