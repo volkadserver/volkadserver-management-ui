@@ -28,7 +28,7 @@ var orderStore = marty.createStore({
 
   receiveFlights: function(flights) {
     this.state.orders = this.state.orders || {};
-    flights = _.groupBy(flights, 'orderID');
+    flights = _.groupBy(flights, 'orderId');
     var orders = {};
     _.forEach(flights, function(orderFlights, orderId) {
       orders[orderId] = { flights: _.indexBy(orderFlights, 'id') };
@@ -77,9 +77,9 @@ var orderStore = marty.createStore({
         if(typeof options.success == 'function') options.success(res.body);
         return res;
       }.bind(order))
-      .catch(function(er) {
+      .catch(function(err) {
         if(typeof options.error == 'function') options.error();
-        return res;
+        return err;
       });
   },
 
@@ -90,9 +90,9 @@ var orderStore = marty.createStore({
         if(typeof options.success == 'function') options.success(res.body);
         return res;
       }.bind(flight))
-      .catch(function(er) {
-        if(typeof options.error == 'function') options.error(er);
-        return res;
+      .catch(function(err) {
+        if(typeof options.error == 'function') options.error(err);
+        return err;
       });
   }
 });

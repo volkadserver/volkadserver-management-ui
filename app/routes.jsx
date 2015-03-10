@@ -33,7 +33,7 @@ module.exports = (
       <Route name="order" path="orders/:id" handler={order} />
       <Route name="advertiser" 
         path="advertisers/:advertiserId" handler={advertiser} />
-      <Route name="flight" path="orders/:orderID/flights/:id" handler={flight} />
+      <Route name="flight" path="orders/:orderId/flights/:id" handler={flight} />
       <Route name="create-flight" 
         path="orders/:id/create" handler={createFlight} />
       <Route name="advertiser-index" 
