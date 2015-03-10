@@ -10,7 +10,7 @@ var _ = require('lodash');
 var orderStateMixin = marty.createStateMixin({
   listenTo: orderStore,
   getState: function() {
-    return orderStore.getFlight(this.getParams().orderID, this.getParams().id)
+    return orderStore.getFlight(this.getParams().orderId, this.getParams().id)
   }
 });
 
@@ -28,8 +28,8 @@ module.exports = React.createClass({
             <h1>
               {flight.name + ' '}
               <small>
-                <Link params={{ id: flight.orderID }} to="order">
-                  belongs to Order #{flight.orderID}
+                <Link params={{ id: flight.orderId }} to="order">
+                  belongs to Order #{flight.orderId}
                 </Link>
               </small>
             </h1>
