@@ -88,7 +88,8 @@ module.exports = React.createClass({
     bestMatch[this.props.valueLabel] = value;
     
     return _.find(this.props.options, function(option) { 
-      return option[this.props.valueLabel].lastIndexOf(value, 0) === 0;
+      if(option[this.props.valueLabel])
+        return option[this.props.valueLabel].lastIndexOf(value, 0) === 0;
     }, this) || bestMatch;
   },
 
