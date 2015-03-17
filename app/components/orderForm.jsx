@@ -31,7 +31,8 @@ module.exports = React.createClass({
   },
 
   shouldComponentUpdate: function(nextProps, nextState) {
-    return nextProps.order != nextState.order;
+    var shouldRender = nextProps.order != nextState.order || nextState != this.state;
+    return shouldRender;
   },
 
   handleChange: function(val, e) {
