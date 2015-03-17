@@ -27,7 +27,7 @@ module.exports = React.createClass({
         return <div className="row">
           <div className="page-header">
             <h1>
-              {advertiser.name + ' '}
+              {advertiser.advertiserName + ' '}
               <small>
                 Advertiser
               </small>

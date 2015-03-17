@@ -12,7 +12,7 @@ module.exports = React.createClass({
   mixins: [ Router.State, Router.Navigation ],
 
   getInitialState: function() {
-    return { name: '' };
+    return { flightName: '' };
   },
 
   onSaveSuccess: function(flight) {
@@ -60,8 +60,8 @@ module.exports = React.createClass({
               <input type="text" 
                 className="form-control" id="newFlightName" 
                 placeholder="New Flight Name" 
-                value={this.state.name} 
-                onChange={this.onChange.bind(this, 'name')} />
+                value={this.state.flightName} 
+                onChange={this.onChange.bind(this, 'flightName')} />
             </div>
             <p className="col-sm-4">
               This is some tip that helps with the stuff. I don't know how long it'll be really. We'll see.

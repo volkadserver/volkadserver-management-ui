@@ -22,7 +22,7 @@ module.exports = React.createClass({
     return {
       mode: 'create',
       order: {
-        name: '',
+        orderName: '',
         advertiserID: undefined
       },
       onSubmit: function() {
@@ -81,7 +81,7 @@ module.exports = React.createClass({
             <input type="text" 
               className="form-control" id="newOrderName" 
               placeholder="New Order Name" 
-              value={this.props.order.name} onChange={this.handleChange.bind(this, 'name')} />
+              value={this.props.order.orderName} onChange={this.handleChange.bind(this, 'orderName')} />
           </div>
           <p className="col-sm-4">
             This is some tip that helps with the stuff. I don't know how long it'll be really. We'll see.
@@ -94,7 +94,7 @@ module.exports = React.createClass({
               <Autocomplete 
                 ref="advertiserAutocomplete" 
                 value={this.props.order.advertiser}
-                valueLabel="name"
+                valueLabel="advertiserName"
                 onSelect={this.handleChange.bind(this, 'advertiser')}
                 options={advertiserStore.state.advertisers} />
               <span className="input-group-btn">

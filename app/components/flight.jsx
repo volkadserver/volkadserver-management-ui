@@ -26,7 +26,7 @@ module.exports = React.createClass({
         return <div className="row">
           <div className="page-header">
             <h1>
-              {flight.name + ' '}
+              {flight.flightName + ' '}
               <small>
                 <Link params={{ id: flight.orderId }} to="order">
                   belongs to Order #{flight.orderId}

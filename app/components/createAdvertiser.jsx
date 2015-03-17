@@ -12,7 +12,7 @@ module.exports = React.createClass({
   mixins: [ Router.State ],
 
   getInitialState: function() {
-    return { name: '' };
+    return { advertiserName: '' };
   },
 
   onSaveSuccess: function() {
@@ -56,8 +56,8 @@ module.exports = React.createClass({
               <input type="text" 
                 className="form-control" id="newAdvertiserName" 
                 placeholder="New Advertiser Name" 
-                value={this.state.name} 
-                onChange={this.onChange.bind(this, 'name')} />
+                value={this.state.advertiserName} 
+                onChange={this.onChange.bind(this, 'advertiserName')} />
             </div>
             <p className="col-sm-4">
               This is some tip that helps with the stuff. I don't know how long it'll be really. We'll see.

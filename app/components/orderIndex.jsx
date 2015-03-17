@@ -18,7 +18,7 @@ var IndexItem = React.createClass({
       <tr>
         <td>{this.props.id}</td>
         <td><strong>Active</strong></td>
-        <td><Link to="order" params={this.props}>{this.props.name}</Link></td>
+        <td><Link to="order" params={this.props}>{this.props.orderName}</Link></td>
         <td>
           <span className="glyphicon glyphicon-edit pull-right"></span>
         </td>

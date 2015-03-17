@@ -98,7 +98,7 @@ module.exports = React.createClass({
           type="text"
           className="form-control" id="newOrderAdvertiser" 
           onKeyDown={this.handleKeyDown}
-          onChange={this.handleChange} value={this.state.bestMatch.name} />
+          onChange={this.handleChange} value={this.state.bestMatch.advertiserName} />
   }
 
 });
