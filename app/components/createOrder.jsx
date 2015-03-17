@@ -58,7 +58,7 @@ module.exports = React.createClass({
     }
 
     if(this.state.showFlightForm) {
-      flightForm = <CreateFlight onSaveSuccess={this.onSaveFlight} orderId={this.state.id} />
+      flightForm = <CreateFlight onSaveSuccess={this.onSaveFlight} orderId={this.state.order.id} />
     }
 
     return <div className="row">
