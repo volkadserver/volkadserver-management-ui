@@ -1,6 +1,7 @@
 /** @jsx React.DOM */
 
 var React = require('react');
+var fuzzySet = require('fuzzyset.js');
 var _ = require('lodash');
 
 var lastKeyDown;
@@ -14,7 +15,8 @@ module.exports = React.createClass({
     fauxBest[this.props.valueLabel] = '';
     return { 
       bestMatch: fauxBest,
-      value: initialValue
+      value: initialValue,
+      fuzz: []
     }
   },
 
@@ -40,7 +42,7 @@ module.exports = React.createClass({
   },
 
   handleBlur: function() {
-    var DOMVal = this.getDOMNode().value;
+    var DOMVal = this.refs.field.getDOMNode().value;
     this.setState({ value: DOMVal });
   },
 
@@ -73,14 +75,22 @@ module.exports = React.createClass({
     else 
       bestMatch = this.getBestMatch(value);
 
+    this.getFuzzyMatches(value);
+
     this.setState(
       { value: value, bestMatch: bestMatch },
       function() {
-        this.getDOMNode().setSelectionRange(value.length, bestMatch[this.props.valueLabel].length);
+        this.refs.field.getDOMNode().setSelectionRange(value.length, bestMatch[this.props.valueLabel].length);
         if(typeof this.props.onChange == 'function')
           this.props.onChange(value);
       }
     );
+  },
+
+  getFuzzyMatches: function(value) {
+    var set = fuzzySet(_.pluck(this.props.options, this.props.valueLabel), true, 1, 2);
+    var best = (set.get(value) || []).map(function(a) { return a[1] });
+    this.setState({ fuzz: best });
   },
 
   getBestMatch: function(value) {
@@ -94,12 +104,15 @@ module.exports = React.createClass({
   },
 
   render: function() {
-    return <input ref='field'
-          onBlur={this.handleBlur}
-          type="text"
-          className="form-control" id="newOrderAdvertiser" 
-          onKeyDown={this.handleKeyDown}
-          onChange={this.handleChange} value={this.state.bestMatch.advertiserName} />
+    return <div>
+        <input ref='field'
+            onBlur={this.handleBlur}
+            type="text"
+            className="form-control" id="newOrderAdvertiser" 
+            onKeyDown={this.handleKeyDown}
+            onChange={this.handleChange} value={this.state.bestMatch.advertiserName} />
+          <span style={{ position: 'absolute', bottom: -14, left: 20, fontSize: 9 }} > { this.state.fuzz.join(', ') }</span>
+        </div>
   }
 
 });

@@ -18,6 +18,7 @@
   "homepage": "https://github.com/volkadserver/volkadserver-management-ui",
   "dependencies": {
     "browserify": "^8.0.3",
+    "fuzzyset.js": "0.0.1",
     "gulp": "^3.8.10",
     "gulp-concat": "^2.4.3",
     "gulp-haml": "^0.1.1",
