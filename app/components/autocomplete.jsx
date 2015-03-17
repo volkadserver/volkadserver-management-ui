@@ -28,7 +28,7 @@ module.exports = React.createClass({
   },
 
   shouldComponentUpdate: function(nextProps, nextState) {
-    return nextProps.value != nextState.bestMatch.id;
+    return nextProps.value != nextState.bestMatch.id || this.state != nextState;
   },
 
   componentDidUpdate: function(nextProps, nextState) {
