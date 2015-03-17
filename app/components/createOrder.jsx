@@ -44,7 +44,7 @@ module.exports = React.createClass({
 
   onSaveFlight: function(flight) {
     this.setState({ showFlightForm: false });
-  }.bind(this),
+  },
 
   render: function() {
     var flightForm, addFlights;
