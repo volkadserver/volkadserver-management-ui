@@ -8,6 +8,10 @@ var orderActionCreators = marty.createActionCreators({
     this.dispatch(flight, orderId, options);
   }),
 
+  createCreative: orderConstants.CREATE_CREATIVE(function(creative, orderId, options) {
+    this.dispatch(creative, orderId, options);
+  }),
+
   createOrder: orderConstants.CREATE_ORDER(function(order, options) {
     this.dispatch(order, options);
   }),

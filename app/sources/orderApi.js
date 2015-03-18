@@ -26,7 +26,7 @@ var orderApi = marty.createStateSource({
   },
 
   getFlight: function(orderId, id) {
-    return this.get('/Orders/' + orderId + '/Flights/' + id).then(function(res) {
+    return this.get('/Flights/' + id).then(function(res) {
       orderSourceActionCreators.receiveFlights([res.body]);
       return res.body
     });

@@ -5,6 +5,7 @@ var marty = require('marty');
 var orderStore = require('../stores/orderStore.js');
 var routerState = require('react-router').State;
 var Link = require('react-router').Link;
+var CreateCreative = require('./createCreative.jsx');
 var _ = require('lodash');
 
 var orderStateMixin = marty.createStateMixin({
@@ -33,6 +34,9 @@ module.exports = React.createClass({
                 </Link>
               </small>
             </h1>
+          </div>
+          <div>
+            <CreateCreative />
           </div>
         </div>
       }
