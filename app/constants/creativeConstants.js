@@ -1,4 +1,4 @@
-var marty = require('marty');
+import marty from "marty";
 
 var creativeConstants = marty.createConstants([
   "REFRESH_CREATIVES",
@@ -6,4 +6,4 @@ var creativeConstants = marty.createConstants([
   "CREATE_CREATIVE"
 ]);
 
-module.exports = creativeConstants;
+export default creativeConstants;

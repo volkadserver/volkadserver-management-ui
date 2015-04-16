@@ -1,5 +1,5 @@
-var marty = require('marty')
-var advertiserConstants = require('../constants/advertiserConstants.js');
+import marty from "marty";
+import advertiserConstants from "../constants/advertiserConstants.js";
 
 var timeout;
 
@@ -16,4 +16,4 @@ var advertiserActionCreators = marty.createActionCreators({
 });
 
 
-module.exports = advertiserActionCreators;
+export default advertiserActionCreators;

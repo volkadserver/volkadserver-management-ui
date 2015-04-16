@@ -1,9 +1,8 @@
-var marty = require('marty');
-var _ = require('lodash');
-
-var creativeConstants = require('../constants/creativeConstants');
-var creativeApi = require('../sources/creativeApi');
-var creativeActionCreators = require('../actions/creativeActionCreators');
+import marty from "marty";
+import _ from "lodash";
+import creativeConstants from "../constants/creativeConstants";
+import creativeApi from "../sources/creativeApi";
+import creativeActionCreators from "../actions/creativeActionCreators";
 
 var creativeStore = marty.createStore({
 
@@ -13,19 +12,19 @@ var creativeStore = marty.createStore({
     refreshCreatives: creativeConstants.REFRESH_CREATIVES
   },
 
-  getInitialState: function() {
+  getInitialState() {
     creativeActionCreators.refreshCreatives();
     
     return { creatives: {} };
   },
 
-  receiveCreatives: function(creatives) {
+  receiveCreatives(creatives) {
     this.state.creatives = this.state.creatives || {};
     this.setState({ creatives: _.merge(this.state.creatives, _.indexBy(creatives, 'id')) });
   },
 
 
-  getCreative: function(id) {
+  getCreative(id) {
     return this.fetch({
       id: 'GET_creative',
       locally: function() {
@@ -37,11 +36,11 @@ var creativeStore = marty.createStore({
     });
   },
 
-  refreshCreatives: function() {
+  refreshCreatives() {
     creativeApi.getAllCreatives();
   },
 
-  createCreative: function(creative, flightId, options) {
+  createCreative(creative, flightId, options) {
     options = options || {};
     if(typeof options.pending == 'function') options.pending();
     creativeApi.createCreative(creative, flightId)
@@ -57,4 +56,4 @@ var creativeStore = marty.createStore({
 
 });
 
-module.exports = creativeStore;
+export default creativeStore;

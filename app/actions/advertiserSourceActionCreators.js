@@ -1,5 +1,5 @@
-var marty = require('marty')
-var advertiserConstants = require('../constants/advertiserConstants.js');
+import marty from "marty";
+import advertiserConstants from "../constants/advertiserConstants.js";
 
 var advertiserSourceActionCreators = marty.createActionCreators({
   receiveAdvertisers: advertiserConstants.RECEIVE_ADVERTISERS(function(advertisers) {
@@ -7,4 +7,4 @@ var advertiserSourceActionCreators = marty.createActionCreators({
   })
 });
 
-module.exports = advertiserSourceActionCreators;
+export default advertiserSourceActionCreators;

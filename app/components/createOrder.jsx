@@ -1,12 +1,11 @@
-var React = require('react/addons');
-var _ = require('lodash');
+import React from "react/addons";
+import _ from "lodash";
+import OrderForm from "./orderForm.jsx";
+import orderActionCreators from "../actions/orderActionCreators";
+import orderStore from "../stores/orderStore";
+import CreateFlight from "./createFlight.jsx";
 
-var OrderForm = require('./orderForm.jsx');
-var orderActionCreators = require('../actions/orderActionCreators');
-var orderStore = require('../stores/orderStore');
-var CreateFlight = require('./createFlight.jsx');
-
-module.exports = React.createClass({
+export default React.createClass({
   getInitialState: function() {
     return {
       status: 'waiting',

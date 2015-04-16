@@ -1,9 +1,8 @@
-var marty = require('marty');
-var _ = require('lodash');
-
-var orderConstants = require('../constants/orderConstants');
-var orderApi = require('../sources/orderApi');
-var orderActionCreators = require('../actions/orderActionCreators');
+import marty from "marty";
+import _ from "lodash";
+import orderConstants from "../constants/orderConstants";
+import orderApi from "../sources/orderApi";
+import orderActionCreators from "../actions/orderActionCreators";
 
 var orderStore = marty.createStore({
 
@@ -15,18 +14,18 @@ var orderStore = marty.createStore({
     refreshOrders: orderConstants.REFRESH_ORDERS
   },
 
-  getInitialState: function() {
+  getInitialState() {
     orderActionCreators.refreshOrders();
     
     return { orders: {} };
   },
 
-  receiveOrders: function(orders) {
+  receiveOrders(orders) {
     this.state.orders = this.state.orders || {};
     this.setState({ orders: _.merge(this.state.orders, _.indexBy(orders, 'id')) });
   },
 
-  receiveFlights: function(flights) {
+  receiveFlights(flights) {
     this.state.orders = this.state.orders || {};
     flights = _.groupBy(flights, 'orderId');
     var orders = {};
@@ -37,7 +36,7 @@ var orderStore = marty.createStore({
     this.setState({ orders: _.merge(this.state.orders, orders) });
   },
 
-  getOrder: function(id) {
+  getOrder(id) {
     return this.fetch({
       id: 'GET_ORDER',
       locally: function() {
@@ -49,7 +48,7 @@ var orderStore = marty.createStore({
     });
   },
 
-  getFlight: function(orderId, id) {
+  getFlight(orderId, id) {
     return this.fetch({
       id: 'GET_FLIGHT',
       locally: function() {
@@ -65,12 +64,12 @@ var orderStore = marty.createStore({
     });
   },
 
-  refreshOrders: function() {
+  refreshOrders() {
     orderApi.getAllFlights();
     orderApi.getAllOrders();
   },
 
-  createOrder: function(order, options) {
+  createOrder(order, options) {
     if(typeof options.pending == 'function') options.pending();
     orderApi.createOrder(order)
       .then(function(res) {
@@ -83,7 +82,7 @@ var orderStore = marty.createStore({
       });
   },
 
-  createFlight: function(flight, orderId, options) {
+  createFlight(flight, orderId, options) {
     if(typeof options.pending == 'function') options.pending();
     orderApi.createFlight(flight, orderId)
       .then(function(res) {
@@ -97,4 +96,4 @@ var orderStore = marty.createStore({
   }
 });
 
-module.exports = orderStore;
+export default orderStore;

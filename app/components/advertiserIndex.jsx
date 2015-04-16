@@ -1,17 +1,17 @@
-var React = require('react');
-var _ = require('lodash');
-var Link = require('react-router').Link;
-var marty = require('marty');
-var advertiserStore = require('../stores/advertiserStore.js');
+import React from "react";
+import _ from "lodash";
+import {Link} from "react-router";
+import marty from "marty";
+import advertiserStore from "../stores/advertiserStore.js";
 
 var advertiserStateMixin = marty.createStateMixin(advertiserStore);
 
 var IndexItem = React.createClass({
-  getInitialState: function() {
+  getInitialState() {
     return {};
   },
 
-  render: function() {
+  render() {
     return (
       <tr>
         <td><Link to="advertiser" params={{ advertiserId: this.props.id }}>{this.props.advertiserName}</Link></td>
@@ -23,7 +23,7 @@ var IndexItem = React.createClass({
   }
 });
 
-module.exports = React.createClass({
+export default React.createClass({
   mixins: [ advertiserStateMixin ],
 
   render: function() {

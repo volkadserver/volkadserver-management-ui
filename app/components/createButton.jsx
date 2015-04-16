@@ -1,11 +1,7 @@
-var React = require('react');
-var Router = require('react-router');
+import React from "react";
+import Router from "react-router";
 
-
-
-
-
-module.exports = React.createClass({
+export default React.createClass({
 
   render: function() {
     var buttonClass, buttonGlyph, buttonSuffix, submitAction;

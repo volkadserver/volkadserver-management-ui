@@ -1,19 +1,18 @@
-var React = require('react');
-var marty = require('marty');
-var Router = require('react-router');
-
-var orderStore = require('../stores/orderStore');
+import React from "react";
+import marty from "marty";
+import Router from "react-router";
+import orderStore from "../stores/orderStore";
 
 var orderStateMixin = marty.createStateMixin({
   listenTo: orderStore,
-  getState: function() {
+  getState() {
     return {
       order: orderStore.getOrder(this.getParams().id)
     };
   }
 });
 
-module.exports = React.createClass({
+export default React.createClass({
   mixins: [orderStateMixin, Router.State],
 
   render: function() {

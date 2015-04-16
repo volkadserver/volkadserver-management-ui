@@ -1,5 +1,5 @@
-var marty = require('marty')
-var creativeConstants = require('../constants/creativeConstants.js');
+import marty from "marty";
+import creativeConstants from "../constants/creativeConstants.js";
 
 var timeout;
 
@@ -16,4 +16,4 @@ var creativeActionCreators = marty.createActionCreators({
 });
 
 
-module.exports = creativeActionCreators;
+export default creativeActionCreators;

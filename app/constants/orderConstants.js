@@ -1,4 +1,4 @@
-var marty = require('marty');
+import marty from "marty";
 
 var orderConstants = marty.createConstants([
   "REFRESH_ORDERS",
@@ -10,4 +10,4 @@ var orderConstants = marty.createConstants([
   "CREATE_CREATIVE"
 ]);
 
-module.exports = orderConstants;
+export default orderConstants;

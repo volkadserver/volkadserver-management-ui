@@ -1,12 +1,10 @@
-var React = require('react');
-var Router = require('react-router');
+import React from "react";
+import Router from "react-router";
+import orderActionCreators from "../actions/orderActionCreators";
+import orderStore from "../stores/orderStore";
+import CreateButton from "./createButton.jsx";
 
-var orderActionCreators = require('../actions/orderActionCreators');
-var orderStore = require('../stores/orderStore');
-var CreateButton = require('./createButton.jsx');
-
-
-module.exports = React.createClass({
+export default React.createClass({
   mixins: [ Router.State, Router.Navigation ],
 
   getInitialState: function() {

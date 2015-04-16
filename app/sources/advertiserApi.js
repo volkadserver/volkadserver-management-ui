@@ -1,24 +1,24 @@
-var marty = require('marty');
-var advertiserSourceActionCreators = require('../actions/advertiserSourceActionCreators');
+import marty from "marty";
+import advertiserSourceActionCreators from "../actions/advertiserSourceActionCreators";
 
 var advertiserApi = marty.createStateSource({
   type: 'http',
   baseUrl: 'http://localhost:3000/api',
   
-  getAllAdvertisers: function() {
+  getAllAdvertisers() {
     return this.get('/Advertisers').then(function(res) {
       advertiserSourceActionCreators.receiveAdvertisers(res.body);
       return res.body;
     });
   },
 
-  getAdvertiser: function(id) {
+  getAdvertiser(id) {
     return this.get('/Advertisers/' + id).then(function(res) {
       advertiserSourceActionCreators.receiveAdvertisers([res.body]);
     });
   },
 
-  createAdvertiser: function(advertiser) {
+  createAdvertiser(advertiser) {
     return this.post({ url: '/Advertisers', body: advertiser, contentType: 'application/json' })
       .then(function(res) {
         advertiserSourceActionCreators.receiveAdvertisers([res.body]);
@@ -28,4 +28,4 @@ var advertiserApi = marty.createStateSource({
 });
 
 
-module.exports = advertiserApi;
+export default advertiserApi;

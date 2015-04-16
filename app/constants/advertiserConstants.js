@@ -1,4 +1,4 @@
-var marty = require('marty');
+import marty from "marty";
 
 var advertiserConstants = marty.createConstants([
   "REFRESH_ADVERTISERS",
@@ -6,4 +6,4 @@ var advertiserConstants = marty.createConstants([
   "CREATE_ADVERTISER"
 ]);
 
-module.exports = advertiserConstants;
+export default advertiserConstants;

@@ -1,14 +1,11 @@
-var React = require('react');
-var Link = require('react-router').Link;
+import React from "react";
+import {Link} from "react-router";
+import Autocomplete from "./autocomplete.jsx";
+import advertiserStore from "../stores/advertiserStore";
+import CreateButton from "./createButton.jsx";
+import CreateAdvertiser from "./createAdvertiser.jsx";
 
-var Autocomplete = require('./autocomplete.jsx');
-var advertiserStore = require('../stores/advertiserStore');
-var CreateButton = require('./createButton.jsx');
-var CreateAdvertiser = require('./createAdvertiser.jsx');
-
-
-
-module.exports = React.createClass({
+export default React.createClass({
 
   getInitialState: function() {
     return {

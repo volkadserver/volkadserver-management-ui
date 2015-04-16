@@ -1,12 +1,12 @@
-var React = require('react');
-var State = require('react-router').State;
-var Link = require('react-router').Link;
+import React from "react";
+import {State} from "react-router";
+import {Link} from "react-router";
 
 
 var NavLi = React.createClass({
   mixins: [ State ],
   
-  render: function() {
+  render() {
     var isActive = this.isActive(this.props.to, this.props.params, this.props.query);
     var className = isActive ? 'active' : '';
     var link = (
@@ -17,7 +17,7 @@ var NavLi = React.createClass({
   }
 });
 
-module.exports= React.createClass({
+export default React.createClass({
   render: function() {
     return <nav className="navbar navbar-default navbar-fixed-bottom">
         <div className="container">

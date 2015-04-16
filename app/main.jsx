@@ -1,8 +1,8 @@
-var React = require('react');
-var routes = require('./routes.jsx');
-var Router = require('react-router');
+import React from "react";
+import routes from "./routes.jsx";
+import Router from "react-router";
 
-window.React = React; 
+window.React = React;
 
 Router.run(routes, function(Handler) {
   React.render(<Handler />, document.body);

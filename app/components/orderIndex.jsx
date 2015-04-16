@@ -1,17 +1,17 @@
-var React = require('react');
-var _ = require('lodash');
-var Link = require('react-router').Link;
-var marty = require('marty');
-var orderStore = require('../stores/orderStore.js');
+import React from "react";
+import _ from "lodash";
+import {Link} from "react-router";
+import marty from "marty";
+import orderStore from "../stores/orderStore.js";
 
 var orderStateMixin = marty.createStateMixin(orderStore);
 
 var IndexItem = React.createClass({
-  getInitialState: function() {
+  getInitialState() {
     return {};
   },
 
-  render: function() {
+  render() {
     return (
       <tr>
         <td>{this.props.id}</td>
@@ -25,7 +25,7 @@ var IndexItem = React.createClass({
   }
 });
 
-module.exports = React.createClass({
+export default React.createClass({
   mixins: [ orderStateMixin ],
 
   render: function() {

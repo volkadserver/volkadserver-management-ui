@@ -1,5 +1,5 @@
-var marty = require('marty')
-var orderConstants = require('../constants/orderConstants.js');
+import marty from "marty";
+import orderConstants from "../constants/orderConstants.js";
 
 var orderSourceActionCreators = marty.createActionCreators({
   receiveOrders: orderConstants.RECEIVE_ORDERS(function(orders) {
@@ -15,4 +15,4 @@ var orderSourceActionCreators = marty.createActionCreators({
   })
 });
 
-module.exports = orderSourceActionCreators;
+export default orderSourceActionCreators;

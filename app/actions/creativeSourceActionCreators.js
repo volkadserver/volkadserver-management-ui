@@ -1,5 +1,5 @@
-var marty = require('marty')
-var creativeConstants = require('../constants/creativeConstants.js');
+import marty from "marty";
+import creativeConstants from "../constants/creativeConstants.js";
 
 var creativeSourceActionCreators = marty.createActionCreators({
   receiveCreatives: creativeConstants.RECEIVE_CREATIVES(function(creatives) {
@@ -7,4 +7,4 @@ var creativeSourceActionCreators = marty.createActionCreators({
   })
 });
 
-module.exports = creativeSourceActionCreators;
+export default creativeSourceActionCreators;

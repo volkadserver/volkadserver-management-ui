@@ -1,8 +1,8 @@
-var React = require('react');
-var NavBar = require('./navBar.jsx');
-var RouteHandler = require('react-router').RouteHandler;
+import React from "react";
+import NavBar from "./navBar.jsx";
+import {RouteHandler} from "react-router";
 
-module.exports = React.createClass({
+export default React.createClass({
   getInitialState: function() {
     return {};
   },

@@ -1,8 +1,7 @@
-var marty = require('marty');
-
-var advertiserConstants = require('../constants/advertiserConstants');
-var advertiserApi = require('../sources/advertiserApi');
-var advertiserActionCreators = require('../actions/advertiserActionCreators');
+import marty from "marty";
+import advertiserConstants from "../constants/advertiserConstants";
+import advertiserApi from "../sources/advertiserApi";
+import advertiserActionCreators from "../actions/advertiserActionCreators";
 
 var advertiserStore = marty.createStore({
 
@@ -13,13 +12,13 @@ var advertiserStore = marty.createStore({
     refreshAdvertisers: advertiserConstants.REFRESH_ADVERTISERS
   },
 
-  getInitialState: function() {
+  getInitialState() {
     advertiserActionCreators.refreshAdvertisers();
     
     return { advertisers: {} };
   },
 
-  receiveAdvertisers: function(advertisers) {
+  receiveAdvertisers(advertisers) {
     this.state.advertisers = this.state.advertisers || {};
     advertisers.forEach(function(advertiser) {
       this.state.advertisers[advertiser.id] = advertiser;
@@ -29,7 +28,7 @@ var advertiserStore = marty.createStore({
 
   },
 
-  getAdvertiser: function(id) {
+  getAdvertiser(id) {
     return this.fetch({
       id: 'GET_ADVERTISER',
       locally: function() {
@@ -41,11 +40,11 @@ var advertiserStore = marty.createStore({
     });
   },
 
-  refreshAdvertisers: function() {
+  refreshAdvertisers() {
     advertiserApi.getAllAdvertisers();
   },
 
-  createAdvertiser: function(advertiser, options) {
+  createAdvertiser(advertiser, options) {
     if(typeof options.pending == 'function') options.pending();
     advertiserApi.createAdvertiser(advertiser)
       .then(function(res) {
@@ -60,4 +59,4 @@ var advertiserStore = marty.createStore({
 
 });
 
-module.exports = advertiserStore;
+export default advertiserStore;

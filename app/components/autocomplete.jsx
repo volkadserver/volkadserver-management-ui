@@ -1,10 +1,10 @@
-var React = require('react');
-var fuzzySet = require('fuzzyset.js');
-var _ = require('lodash');
+import React from "react";
+import fuzzySet from "fuzzyset.js";
+import _ from "lodash";
 
 var lastKeyDown;
 
-module.exports = React.createClass({
+export default React.createClass({
   getInitialState: function() {
     var initialValue = this.props.value 
       ? this.props.value[this.props.valueLabel] : '';

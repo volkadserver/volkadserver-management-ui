@@ -1,5 +1,5 @@
-var marty = require('marty')
-var orderConstants = require('../constants/orderConstants.js');
+import marty from "marty";
+import orderConstants from "../constants/orderConstants.js";
 
 var timeout;
 
@@ -24,4 +24,4 @@ var orderActionCreators = marty.createActionCreators({
 });
 
 
-module.exports = orderActionCreators;
+export default orderActionCreators;

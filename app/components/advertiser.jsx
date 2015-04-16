@@ -1,19 +1,19 @@
-var React = require('react');
-var marty = require('marty');
-var orderStore = require('../stores/orderStore');
-var advertiserStore = require('../stores/advertiserStore');
+import React from "react";
+import marty from "marty";
+import orderStore from "../stores/orderStore";
+import advertiserStore from "../stores/advertiserStore";
 var routerState = require('react-router').State;
-var Link = require('react-router').Link;
-var _ = require('lodash');
+import {Link} from "react-router";
+import _ from "lodash";
 
 var orderStateMixin = marty.createStateMixin({
   listenTo: advertiserStore,
-  getState: function() {
+  getState() {
     return advertiserStore.getAdvertiser(this.getParams().advertiserId)
   }
 });
 
-module.exports = React.createClass({
+export default React.createClass({
   mixins: [ routerState, orderStateMixin ],
   
   render: function() {
