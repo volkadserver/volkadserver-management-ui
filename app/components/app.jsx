@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var React = require('react');
 var NavBar = require('./navBar.jsx');
 var RouteHandler = require('react-router').RouteHandler;

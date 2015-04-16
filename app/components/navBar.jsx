@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var React = require('react');
 var State = require('react-router').State;
 var Link = require('react-router').Link;

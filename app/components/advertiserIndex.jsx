@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var React = require('react');
 var _ = require('lodash');
 var Link = require('react-router').Link;

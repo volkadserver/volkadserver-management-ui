@@ -1,5 +1,3 @@
-/** @jsx React.DOM */
-
 var React = require('react');
 var fuzzySet = require('fuzzyset.js');
 var _ = require('lodash');
