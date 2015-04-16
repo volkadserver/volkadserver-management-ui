@@ -2,13 +2,11 @@ var gulp = require('gulp');
 var source = require('vinyl-source-stream'); // Used to stream bundle for further handling
 var browserify = require('browserify');
 var watchify = require('watchify');
-var reactify = require('reactify'); 
 var concat = require('gulp-concat');
 var babelify = require('babelify');
 var haml = require('gulp-haml');
  
 var bundler = watchify(browserify('./app/main.jsx', watchify.args));
-bundler.transform(reactify);
 bundler.transform(babelify);
 bundler.on('update', bundle);
 
