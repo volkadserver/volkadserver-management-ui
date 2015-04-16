@@ -4,19 +4,24 @@ var browserify = require('browserify');
 var watchify = require('watchify');
 var reactify = require('reactify'); 
 var concat = require('gulp-concat');
-var babel = require('gulp-babel');
+var babelify = require('babelify');
 var haml = require('gulp-haml');
  
+var bundler = watchify(browserify('./app/main.jsx', watchify.args));
+bundler.transform(reactify);
+bundler.transform(babelify);
+bundler.on('update', bundle);
+
+function bundle() {
+  console.log('Bundling browserify bundle');
+  return bundler.bundle()
+    .on('error', function(err) { console.log('[GULP]', err.name, err.message ); })
+    .pipe(source('main.js'))
+    .pipe(gulp.dest('./build/js/'));
+}
+
 gulp.task('browserify', function() {
-  var bundler = watchify(browserify('./app/main.jsx', watchify.args));
-  bundler.transform(reactify);
-  bundler.transform(babel);
-  bundler.on('update', function() {
-    return bundler.bundle()
-      .on('error', function(err) { console.log('Error while re-compiling'); })
-      .pipe(source('main.js'))
-      .pipe(gulp.dest('./build/js/'));
-  });
+  return bundle();
 });
 
 gulp.task('haml', function () {
