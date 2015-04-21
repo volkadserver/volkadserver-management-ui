@@ -7,7 +7,7 @@ var orderStateMixin = marty.createStateMixin({
   listenTo: orderStore,
   getState() {
     return {
-      order: orderStore.getOrder(this.getParams().id)
+      order: orderStore.getOrder(this.props.id)
     };
   }
 });

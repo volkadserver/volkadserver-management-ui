@@ -24,7 +24,7 @@ export default React.createClass({
     console.log('submitting');
     creativeActionCreators.createCreative(
       this.state, 
-      this.props.flightId || this.getParams().id,
+      this.props.flightId || this.props.id,
       { 
         pending: function() { this.setState({ status: 'pending' }); }.bind(this),
         error: function(err) { 

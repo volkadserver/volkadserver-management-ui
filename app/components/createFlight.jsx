@@ -23,7 +23,7 @@ export default React.createClass({
   submitFlight: function() {
     orderActionCreators.createFlight(
       this.state, 
-      this.props.orderId || this.getParams().id,
+      this.props.orderId || this.props.id,
       { 
         pending: function() { this.setState({ status: 'pending' }); }.bind(this),
         error: function(err) { 

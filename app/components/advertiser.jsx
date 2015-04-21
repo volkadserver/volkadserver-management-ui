@@ -2,19 +2,18 @@ import React from "react";
 import marty from "marty";
 import orderStore from "../stores/orderStore";
 import advertiserStore from "../stores/advertiserStore";
-var routerState = require('react-router').State;
 import {Link} from "react-router";
 import _ from "lodash";
 
 var orderStateMixin = marty.createStateMixin({
   listenTo: advertiserStore,
   getState() {
-    return advertiserStore.getAdvertiser(this.getParams().advertiserId)
+    return advertiserStore.getAdvertiser(this.props.advertiserId)
   }
 });
 
 export default React.createClass({
-  mixins: [ routerState, orderStateMixin ],
+  mixins: [ orderStateMixin ],
   
   render: function() {
 

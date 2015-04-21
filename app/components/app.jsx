@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "./navBar.jsx";
-import {RouteHandler {...this.props}} from "react-router";
+import {RouteHandler} from "react-router";
 
 export default React.createClass({
   getInitialState: function() {

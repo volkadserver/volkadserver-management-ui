@@ -1,13 +1,12 @@
 import React from "react";
-import {State} from "react-router";
 import {Link} from "react-router";
 
 
 var NavLi = React.createClass({
-  mixins: [ State ],
-  
   render() {
-    var isActive = this.isActive(this.props.to, this.props.params, this.props.query);
+    // TODO: fix navbar active flag
+    //var isActive = this.isActive(this.props.to, this.props.params, this.props.query);
+    var isActive = true;
     var className = isActive ? 'active' : '';
     var link = (
       <Link {...this.props} />

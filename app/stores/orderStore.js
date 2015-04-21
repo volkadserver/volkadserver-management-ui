@@ -27,7 +27,7 @@ var orderStore = marty.createStore({
 
   receiveFlights(flights) {
     this.state.orders = this.state.orders || {};
-    flights = _.groupBy(flights, 'orderId');
+    flights = _.groupBy(flights, 'OrderId');
     var orders = {};
     _.forEach(flights, function(orderFlights, orderId) {
       orders[orderId] = { flights: _.indexBy(orderFlights, 'id') };

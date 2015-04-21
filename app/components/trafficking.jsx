@@ -1,6 +1,5 @@
 import React from "react";
-import {Link} from "react-router";
-import {RouteHandler {...this.props}} from "react-router";
+import {Link, RouteHandler} from "react-router";
 
 export default React.createClass({
   render: function() {

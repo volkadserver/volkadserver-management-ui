@@ -2,22 +2,20 @@ import React from "react";
 import marty from "marty";
 import {Link} from "react-router";
 import orderStore from "../stores/orderStore.js";
-var routerState = require('react-router').State;
 import FlightItem from "./flightItem.jsx";
 import _ from "lodash";
 
 var orderStateMixin = marty.createStateMixin({
   listenTo: orderStore,
   getState() {
-    return orderStore.getOrder(this.getParams().id)
+    return orderStore.getOrder(this.props.id)
   }
 });
 
 export default React.createClass({
-  mixins: [ routerState, orderStateMixin ],
+  mixins: [ orderStateMixin ],
   
   render: function() {
-
     return this.state.when({
       pending: function() { return <div className="row">Pending</div> },
       failed: function(err) { return <div className="row">{err}</div> },
@@ -26,7 +24,8 @@ export default React.createClass({
 
         if(order.flights) {
           flightItems =  _.map(order.flights, function(flight, i) {
-                return <FlightItem {...flight} key={i} />;
+            flight.orderId = order.id;
+                return <FlightItem { ...flight } key={i} />;
               });
         }
 

@@ -1,7 +1,6 @@
 import React from "react";
 import marty from "marty";
 import orderStore from "../stores/orderStore.js";
-var routerState = require('react-router').State;
 import {Link} from "react-router";
 import CreateCreative from "./createCreative.jsx";
 import _ from "lodash";
@@ -9,12 +8,12 @@ import _ from "lodash";
 var orderStateMixin = marty.createStateMixin({
   listenTo: orderStore,
   getState() {
-    return orderStore.getFlight(this.getParams().orderId, this.getParams().id)
+    return orderStore.getFlight(this.props.orderId, this.props.id)
   }
 });
 
 export default React.createClass({
-  mixins: [ routerState, orderStateMixin ],
+  mixins: [ orderStateMixin ],
   
   render: function() {
 
