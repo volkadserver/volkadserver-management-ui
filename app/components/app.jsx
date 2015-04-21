@@ -1,6 +1,6 @@
 import React from "react";
 import NavBar from "./navBar.jsx";
-import {RouteHandler} from "react-router";
+import {RouteHandler {...this.props}} from "react-router";
 
 export default React.createClass({
   getInitialState: function() {
@@ -10,7 +10,7 @@ export default React.createClass({
   render: function() {
     return <div className="container">
         <NavBar />
-        <RouteHandler />
+        <RouteHandler {...this.props} />
         
 
       </div>

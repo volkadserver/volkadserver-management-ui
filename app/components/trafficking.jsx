@@ -1,6 +1,6 @@
 import React from "react";
 import {Link} from "react-router";
-import {RouteHandler} from "react-router";
+import {RouteHandler {...this.props}} from "react-router";
 
 export default React.createClass({
   render: function() {
@@ -31,7 +31,7 @@ export default React.createClass({
               Advertisers
             </Link>
           </div>
-          <RouteHandler />
+          <RouteHandler {...this.props} />
         </div>
       </div>
     )

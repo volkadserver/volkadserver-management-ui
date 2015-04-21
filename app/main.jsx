@@ -5,6 +5,6 @@ import Router from "react-router";
 window.React = React;
 
 Router.run(routes, function(Handler) {
-  React.render(<Handler />, document.body);
+  React.render(<Handler {...this.props} />, document.body);
 });
 
