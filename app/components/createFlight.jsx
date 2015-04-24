@@ -1,50 +1,42 @@
 import React from "react";
 import Router from "react-router";
-import orderActionCreators from "../actions/orderActionCreators";
-import orderStore from "../stores/orderStore";
+import OrderActionCreators from "../actions/orderActionCreators";
 import CreateButton from "./createButton.jsx";
 
-export default React.createClass({
-  mixins: [ Router.State, Router.Navigation ],
+class CreateFlight extends React.Component {
+  constructor() {
+    super();
 
-  getInitialState: function() {
-    return { flightName: '' };
-  },
+    this.state = { flightName: '' };
+  }
 
-  onSaveSuccess: function(flight) {
-    if(typeof this.props.onSaveSuccess === 'function') {
+  onSaveSuccess(flight) {
+    if(typeof this.props.onSaveSuccess === 'function')
       this.props.onSaveSuccess(flight);
-    }
-    else {
-      this.transitionTo('order', { id: flight.orderId });
-    }
-  },
+  }
 
-  submitFlight: function() {
-    orderActionCreators.createFlight(
-      this.state, 
+  submitFlight() {
+    OrderActionCreators.createFlight(
+      this.state,
       this.props.orderId || this.props.id,
-      { 
-        pending: function() { this.setState({ status: 'pending' }); }.bind(this),
-        error: function(err) { 
-          console.log(err);
-          this.setState({ status: 'error' });
-        }.bind(this),
-        success: function(flight) { 
-          this.setState({ status: 'success', saved: true }); 
+      {
+        pending: () => this.setState({ status: 'pending' }),
+        error: (err) => this.setState({ status: 'error' }),
+        success: (flight) => {
+          this.setState({ status: 'success', saved: true });
           this.onSaveSuccess(flight);
-        }.bind(this)
+        }
       }
     );
-  },
+  }
 
-  onChange: function(val, e) {
-    var change = {};
+  onChange(val, e) {
+    let change = {};
     change[val] = e.target.value;
     this.setState(change);
-  },
+  }
 
-  render: function() {
+  render() {
     return <div className="row">
         <form className="form-horizontal col-sm-12">
           <div className="row">
@@ -99,7 +91,7 @@ export default React.createClass({
             <div className="col-sm-offset-2 col-sm-6">
               <div className="btn-group">
                 <CreateButton 
-                  onSubmit={this.submitFlight} 
+                  onSubmit={this.submitFlight.bind(this)} 
                   status={this.state.status} />
               </div>
             </div>
@@ -107,4 +99,6 @@ export default React.createClass({
         </form>
       </div>
   }
-});
+}
+
+export default CreateFlight;

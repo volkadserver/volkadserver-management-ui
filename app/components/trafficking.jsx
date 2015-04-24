@@ -1,10 +1,9 @@
 import React from "react";
 import {Link, RouteHandler} from "react-router";
 
-export default React.createClass({
-  render: function() {
-    return (
-      <div>
+class Trafficking extends React.Component {
+  render() {
+    return <div>
         <nav className="navbar navbar-default navbar-static-top">
           <div className="container-fluid">
             <div className="navbar-header">
@@ -33,6 +32,7 @@ export default React.createClass({
           <RouteHandler {...this.props} />
         </div>
       </div>
-    )
   }
-}); 
+}
+
+export default Trafficking;

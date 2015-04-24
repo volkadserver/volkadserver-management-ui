@@ -1,10 +1,8 @@
 import React from "react";
-import Router from "react-router";
 
-export default React.createClass({
-
-  render: function() {
-    var buttonClass, buttonGlyph, buttonSuffix, submitAction;
+class CreateButton extends React.Component {
+  render() {
+    let buttonClass, buttonGlyph, buttonSuffix, submitAction;
 
     switch(this.props.status) {
       case 'pending':
@@ -37,7 +35,7 @@ export default React.createClass({
               <span className={'glyphicon ' + buttonGlyph}></span> 
               <span> Create{buttonSuffix}</span>
             </button>;
-
-
   }
-});
+}
+
+export default CreateButton;

@@ -1,51 +1,43 @@
 import React from "react";
-import Router from "react-router";
-import creativeActionCreators from "../actions/creativeActionCreators";
-import creativeStore from "../stores/creativeStore";
+import CreativeActionCreators from "../actions/creativeActionCreators";
 import CreateButton from "./createButton.jsx";
 
-export default React.createClass({
-  mixins: [ Router.State, Router.Navigation ],
+class CreateCreative extends React.Component {
+  constructor() {
+    super();
 
-  getInitialState: function() {
-    return { creativeName: '', creativeContent: '' };
-  },
+    this.state = { creativeName: '', creativeContent: '' };
+  }
 
-  onSaveSuccess: function(creative) {
-    if(typeof this.props.onSaveSuccess === 'function') {
+  onSaveSuccess(creative) {
+    if(typeof this.props.onSaveSuccess === 'function')
       this.props.onSaveSuccess(creative);
-    }
-    else {
+    else
       this.transitionTo('creative', { id: creative.creativeId });
-    }
-  },
+  }
 
-  submitCreative: function() {
-    console.log('submitting');
-    creativeActionCreators.createCreative(
-      this.state, 
+  submitCreative() {
+    CreativeActionCreators.createCreative(
+      this.state,
       this.props.flightId || this.props.id,
-      { 
-        pending: function() { this.setState({ status: 'pending' }); }.bind(this),
-        error: function(err) { 
-          console.log(err);
-          this.setState({ status: 'error' });
-        }.bind(this),
-        success: function(creative) { 
-          this.setState({ status: 'success', saved: true }); 
+      {
+        pending: () => this.setState({ status: 'pending' }),
+        error: (err) => this.setState({ status: 'error' }),
+        success: (creative) => {
+          this.setState({ status: 'success', saved: true });
           this.onSaveSuccess(creative);
-        }.bind(this)
+        }
       }
     );
-  },
+  }
 
-  onChange: function(val, e) {
-    var change = {};
+  onChange(val, e) {
+    let change = {};
     change[val] = e.target.value;
     this.setState(change);
-  },
+  }
 
-  render: function() {
+  render() {
     return <div className="row">
         <form className="form-horizontal col-sm-12">
           <div className="row">
@@ -78,7 +70,7 @@ export default React.createClass({
             <div className="col-sm-offset-2 col-sm-6">
               <div className="btn-group">
                 <CreateButton 
-                  onSubmit={this.submitCreative} 
+                  onSubmit={this.submitCreative.bind(this)} 
                   status={this.state.status} />
               </div>
             </div>
@@ -86,4 +78,6 @@ export default React.createClass({
         </form>
       </div>
   }
-});
+}
+
+export default CreateCreative;

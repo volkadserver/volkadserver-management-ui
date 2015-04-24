@@ -1,8 +1,7 @@
 import React from "react";
 import {Link} from "react-router";
 
-
-var NavLi = React.createClass({
+class NavLi extends React.Component {
   render() {
     // TODO: fix navbar active flag
     //var isActive = this.isActive(this.props.to, this.props.params, this.props.query);
@@ -14,10 +13,10 @@ var NavLi = React.createClass({
 
     return <li className={className}>{link}</li>;
   }
-});
+}
 
-export default React.createClass({
-  render: function() {
+class NavBar extends React.Component {
+  render() {
     return <nav className="navbar navbar-default navbar-fixed-bottom">
         <div className="container">
           <div className="navbar-header">
@@ -46,10 +45,9 @@ export default React.createClass({
               </div>
             </form>
           </div>
-
         </div>
-          
       </nav>
   }
-});
+}
 
+export default NavBar;

@@ -1,7 +1,9 @@
 import React from "react";
 
-export default React.createClass({
-  render: function() {
+class Inventory extends React.Component {
+  render() {
     return <h1>Inventory Page</h1>
   }
-});
+}
+
+export default Inventory;

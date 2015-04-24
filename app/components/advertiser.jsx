@@ -1,37 +1,36 @@
 import React from "react";
-import marty from "marty";
-import orderStore from "../stores/orderStore";
-import advertiserStore from "../stores/advertiserStore";
+import Marty from "marty";
+import AdvertiserStore from "../stores/advertiserStore";
 import {Link} from "react-router";
-import _ from "lodash";
 
-var orderStateMixin = marty.createStateMixin({
-  listenTo: advertiserStore,
-  getState() {
-    return advertiserStore.getAdvertiser(this.props.advertiserId)
+class Advertiser extends React.Component {
+  render() {
+    return <div className="row">
+      <div className="page-header">
+        <h1>
+          {this.props.advertiser.advertiserName + ' '}
+          <small>
+            Advertiser
+          </small>
+        </h1>
+      </div>
+    </div>
   }
-});
+}
 
-export default React.createClass({
-  mixins: [ orderStateMixin ],
-  
-  render: function() {
-
-    return this.state.when({
-      pending: function() { return <div className="row">Pending</div> },
-      failed: function(err) { return <div className="row">{err}</div> },
-      done: function(advertiser) {
-        return <div className="row">
-          <div className="page-header">
-            <h1>
-              {advertiser.advertiserName + ' '}
-              <small>
-                Advertiser
-              </small>
-            </h1>
-          </div>
-        </div>
-      }
+export default Marty.createContainer(Advertiser, {
+  listenTo: AdvertiserStore,
+  fetch: {
+    advertiser() {
+      return AdvertiserStore.for(this).getAdvertiser(this.props.advertiserId);
+    }
+  },
+  failed(err) {
+    return <div>{err}</div>
+  },
+  pending() {
+    return this.done({
+      advertiser: {}
     });
   }
 });

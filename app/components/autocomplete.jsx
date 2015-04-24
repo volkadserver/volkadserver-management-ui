@@ -2,55 +2,55 @@ import React from "react";
 import fuzzySet from "fuzzyset.js";
 import _ from "lodash";
 
-var lastKeyDown;
+class AutoComplete extends React.Component {
+  constructor(props) {
+    super(props);
+    let initialValue = this.props.value ? this.props.value[this.props.valueLabel] : '',
+        fauxBest = { [this.props.valueLabel]: '' };
 
-export default React.createClass({
-  getInitialState: function() {
-    var initialValue = this.props.value 
-      ? this.props.value[this.props.valueLabel] : '';
-
-    var fauxBest = {};
-    fauxBest[this.props.valueLabel] = '';
-    return { 
-      bestMatch: fauxBest,
+    this.state = {
+      bestMatch: { [this.props.valueLable]: '' },
       value: initialValue,
       fuzz: []
     }
-  },
+  }
 
-  setOption: function(option) {
-    var bestMatch = this.getBestMatch(option[this.props.valueLabel]);
+  getOptions() { 
+    return Object.values(this.props.options);
+  }
+
+  setOption(option) {
+    let bestMatch = this.getBestMatch(option[this.props.valueLabel]);
     if(bestMatch)
-      this.setState({ 
-        value: bestMatch[this.props.valueLabel], 
+      this.setState({
+        value: bestMatch[this.props.valueLabel],
         bestMatch: bestMatch
       });
-  },
+  }
 
-  shouldComponentUpdate: function(nextProps, nextState) {
+  shouldComponentUpdate(nextProps, nextState) {
     return nextProps.value != nextState.bestMatch.id || this.state != nextState;
-  },
+  }
 
-  componentDidUpdate: function(nextProps, nextState) {
-    var isMatched = _.find(this.props.options, function(option) {
+  componentDidUpdate(nextProps, nextState) {
+    let isMatched = this.getOptions().find( option => {
       return option[this.props.valueLabel] == this.state.value;
-    }, this);
+    });
     if(isMatched && typeof this.props.onSelect === 'function')
       this.props.onSelect(this.state.bestMatch);
-  },
+  }
 
-  handleBlur: function() {
-    var DOMVal = this.refs.field.getDOMNode().value;
+  handleBlur() {
+    let DOMVal = React.findDOMNode(this.refs.field).value;
     this.setState({ value: DOMVal });
-  },
+  }
 
-  handleKeyDown: function(e) {
-    var node = this.refs.field.getDOMNode();
-    var value = node.value;
+  handleKeyDown(e) {
+    let node = React.findDOMNode(this.refs.field);
+    let value = node.value;
     if(e.keyCode === 8) {
-      lastKeyDown = 8;
-      var best = {};
-      best[this.props.valueLabel] =  this.state.value
+      this.lastKeyDown = 8;
+      let best = { [this.props.valueLabel]: this.state.value };
       this.setState({ bestMatch: best });
       return;
     }
@@ -58,59 +58,55 @@ export default React.createClass({
       node.blur();
       e.preventDefault();
     }
+  }
 
-  },
-
-  handleChange: function(e) {
-    var node = this.refs.field.getDOMNode();
-    var value = node.value;
+  handleChange(e) {
+    let node = React.findDOMNode(this.refs.field);
+    let value = node.value;
     value = value.slice(0, node.selectionStart);
 
-    var bestMatch = {};
-    bestMatch[this.props.valueLabel] = value;
-    if(lastKeyDown === 8)
-      lastKeyDown = undefined;
-    else 
-      bestMatch = this.getBestMatch(value);
+    let bestMatch = { [this.props.valueLabel]: value };
+
+    if(this.lastKeyDown === 8) this.lastKeyDown = undefined;
+    else bestMatch = this.getBestMatch(value);
 
     this.getFuzzyMatches(value);
 
-    this.setState(
-      { value: value, bestMatch: bestMatch },
-      function() {
-        this.refs.field.getDOMNode().setSelectionRange(value.length, bestMatch[this.props.valueLabel].length);
+    this.setState({ value, bestMatch }, () => { 
+        node.setSelectionRange(value.length, bestMatch[this.props.valueLabel].length);
         if(typeof this.props.onChange == 'function')
           this.props.onChange(value);
-      }
-    );
-  },
+      });
+  }
 
-  getFuzzyMatches: function(value) {
-    var set = fuzzySet(_.pluck(this.props.options, this.props.valueLabel), true, 1, 2);
-    var best = (set.get(value) || []).map(function(a) { return a[1] });
-    this.setState({ fuzz: best });
-  },
+  getFuzzyMatches(value) {
+    let set = fuzzySet(_.pluck(this.props.options, this.props.valueLabel), true, 1, 2),
+        fuzz = (set.get(value) || []).map(a => a[1]);
 
-  getBestMatch: function(value) {
-    var bestMatch = {};
-    bestMatch[this.props.valueLabel] = value;
-    
-    return _.find(this.props.options, function(option) { 
+    this.setState({ fuzz });
+  }
+
+  getBestMatch(value) {
+    let bestMatch = { [this.props.valueLabel]: value };
+
+    return this.getOptions().find(option => {
       if(option[this.props.valueLabel])
         return option[this.props.valueLabel].lastIndexOf(value, 0) === 0;
-    }, this) || bestMatch;
-  },
+    }) || bestMatch;
+  }
 
-  render: function() {
+  render() {
     return <div>
         <input ref='field'
-            onBlur={this.handleBlur}
+            onBlur={this.handleBlur.bind(this)}
             type="text"
             className="form-control" id="newOrderAdvertiser" 
-            onKeyDown={this.handleKeyDown}
-            onChange={this.handleChange} value={this.state.bestMatch.advertiserName} />
+            onKeyDown={this.handleKeyDown.bind(this)}
+            onChange={this.handleChange.bind(this)} 
+            value={this.state.bestMatch.advertiserName} />
           <span style={{ position: 'absolute', bottom: -14, left: 20, fontSize: 9 }} > { this.state.fuzz.join(', ') }</span>
         </div>
   }
+}
 
-});
+export default AutoComplete;

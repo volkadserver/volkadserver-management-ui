@@ -1,57 +1,42 @@
 import React from "react";
+import Marty from "marty";
 import {Link} from "react-router";
 import Autocomplete from "./autocomplete.jsx";
-import advertiserStore from "../stores/advertiserStore";
+import AdvertiserStore from "../stores/advertiserStore";
 import CreateButton from "./createButton.jsx";
 import CreateAdvertiser from "./createAdvertiser.jsx";
 
-export default React.createClass({
+class OrderForm extends React.Component {
+  constructor(props) {
+    super(props);
 
-  getInitialState: function() {
-    return {
-      order: this.props.order
-    }
-  },
+    this.state = { order: props.order };
+  }
 
-  getDefaultProps: function() {
-    return {
-      mode: 'create',
-      order: {
-        orderName: '',
-        advertiserID: undefined
-      },
-      onSubmit: function() {
-      }
-    }
-  },
-
-  shouldComponentUpdate: function(nextProps, nextState) {
-    var shouldRender = nextProps.order != nextState.order || nextState != this.state;
+  shouldComponentUpdate(nextProps, nextState) {
+    var shouldRender = nextProps != nextState || nextState != this.state;
     return shouldRender;
-  },
+  }
 
-  handleChange: function(val, e) {
-    var change = {};
-    change[val] = e.target ? e.target.value : e.id; // e might be value already
+  handleChange(val, e) {
+    var change = { [val]: e.target ? e.target.value : e.id };
     this.props.onChange(change);
-  },
+  }
 
-  addAdvertiser: function() {
-    this.setState({ showAdvertiserForm: true});
-  },
+  addAdvertiser() {
+    this.setState({ showAdvertiserForm: true });
+  }
 
-  onSelectAdvertiser: function(advertiser) {
-    this.setState({ advertiser: advertiser });
+  onSelectAdvertiser(advertiser) {
+    this.setState({ advertiser });
+  }
 
-    console.log(this.state);
-  },
-
-  onSaveAdvertiser: function(advertiser) {
-    this.setState({ advertiser: advertiser, showAdvertiserForm: false });
+  onSaveAdvertiser(advertiser) {
+    this.setState({ advertiser, showAdvertiserForm: false });
     this.refs.advertiserAutocomplete.setOption(advertiser);
-  },
+  }
 
-  render: function() { 
+  render() {
     var buttonClass, buttonGlyph,
         buttonSuffix, advertiserForm, goToOrder;
 
@@ -64,7 +49,7 @@ export default React.createClass({
     }
 
     if(this.state.showAdvertiserForm) 
-      advertiserForm = <CreateAdvertiser onSaveSuccess={this.onSaveAdvertiser} />
+      advertiserForm = <CreateAdvertiser onSaveSuccess={this.onSaveAdvertiser.bind(this)} />
 
     return <form className="form-horizontal col-sm-12">
       <div className="row">
@@ -92,9 +77,14 @@ export default React.createClass({
                 value={this.props.order.advertiser}
                 valueLabel="advertiserName"
                 onSelect={this.handleChange.bind(this, 'advertiser')}
-                options={advertiserStore.state.advertisers} />
+                options={this.props.advertisers} />
               <span className="input-group-btn">
-                <button className="btn btn-default" type="button" onClick={this.addAdvertiser}>Add Advertiser</button>
+                <button 
+                  className="btn btn-default" 
+                  type="button" 
+                  onClick={this.addAdvertiser.bind(this)}>
+                    Add Advertiser
+                  </button>
               </span>
             </div>
           </div>
@@ -116,5 +106,33 @@ export default React.createClass({
         </div>
       </div>
     </form>
+  }
+}
+
+OrderForm.getDefaultProps = {
+  mode: 'create',
+  order: {
+    orderName: '',
+    advertiserID: undefined
+  },
+  onSubmit: function() {
+  }
+}
+
+export default Marty.createContainer(OrderForm, {
+  listenTo: AdvertiserStore,
+
+  fetch: {
+    advertisers() {
+      return AdvertiserStore.for(this).getAdvertisers();
+    }
+  },
+
+  failed(err) {
+    return <div>{err}</div>
+  },
+
+  pending() {
+    return this.done({ advertisers: [] });
   }
 });

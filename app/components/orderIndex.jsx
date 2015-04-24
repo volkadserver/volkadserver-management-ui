@@ -1,19 +1,12 @@
 import React from "react";
 import _ from "lodash";
 import {Link} from "react-router";
-import marty from "marty";
-import orderStore from "../stores/orderStore.js";
+import Marty from "marty";
+import OrderStore from "../stores/orderStore.js";
 
-var orderStateMixin = marty.createStateMixin(orderStore);
-
-var IndexItem = React.createClass({
-  getInitialState() {
-    return {};
-  },
-
+class IndexItem extends React.Component {
   render() {
-    return (
-      <tr>
+    return <tr>
         <td>{this.props.id}</td>
         <td><strong>Active</strong></td>
         <td><Link to="order" params={this.props}>{this.props.orderName}</Link></td>
@@ -21,15 +14,12 @@ var IndexItem = React.createClass({
           <span className="glyphicon glyphicon-edit pull-right"></span>
         </td>
       </tr>  
-    )
   }
-});
+}
 
-export default React.createClass({
-  mixins: [ orderStateMixin ],
-
-  render: function() {
-    var indexItems =  _.map(this.state.orders, function(order, i) {
+class OrderIndex extends React.Component {
+  render() {
+    var indexItems =  _.map(this.props.orders, function(order, i) {
           if(typeof order.id !== 'undefined')
             return <IndexItem {...order} key={i} />;
         });
@@ -47,5 +37,21 @@ export default React.createClass({
           </tbody>
         </table>
       </div>
+  }
+}
+
+export default Marty.createContainer(OrderIndex, {
+  listenTo: OrderStore,
+
+  fetch: {
+    orders() {
+      return OrderStore.for(this).getOrders();
+    }
+  },
+  failed(err) {
+    return <div>{err}</div>
+  },
+  pending() {
+    return this.done({ orders: {} });
   }
 });

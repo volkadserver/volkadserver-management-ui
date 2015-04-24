@@ -41,6 +41,7 @@ var creativeStore = marty.createStore({
   },
 
   createCreative(creative, flightId, options) {
+    // TODO: this is not getting called. fix it.
     options = options || {};
     if(typeof options.pending == 'function') options.pending();
     creativeApi.createCreative(creative, flightId)

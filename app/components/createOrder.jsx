@@ -1,66 +1,65 @@
 import React from "react/addons";
 import _ from "lodash";
 import OrderForm from "./orderForm.jsx";
-import orderActionCreators from "../actions/orderActionCreators";
-import orderStore from "../stores/orderStore";
+import OrderActionCreators from "../actions/orderActionCreators";
 import CreateFlight from "./createFlight.jsx";
 
-export default React.createClass({
-  getInitialState: function() {
-    return {
-      status: 'waiting',
-      order: {}
-    }
-  },
+class CreateOrder extends React.Component {
+  constructor() {
+    super();
 
-  handleSubmit: function() {
-    console.log(this.state.order);
-    orderActionCreators.createOrder(
-      this.state.order, 
+    this.state = { status: 'waiting', order: {} };
+  }
+
+  handleSubmit() {
+    OrderActionCreators.createOrder(
+      this.state.order,
       {
-        pending: function() { this.setState({ status: 'pending' }); }.bind(this),
-        error: function() { this.setState({ status: 'error' }); }.bind(this),
-        success: function(order) { 
-          this.replaceState({
-            order: order,
-            status: 'success'
-          })
-        }.bind(this)
+        pending: () => this.setState({ status: 'pending' }),
+        error: () => this.setState({ status: 'error' }),
+        success: (order) => this.setState({ order: order, status: 'success' })
       }
     );
-  },
+  }
 
-  handleChange: function(order) {
+  handleChange(order) {
     order = React.addons.update(this.state.order, { $merge: order });
-    this.setState({ order: order });
-  },
+    this.setState({ order });
+  }
 
-  addFlight: function() {
+  addFlight() {
     this.setState({ showFlightForm: true });
-  },
+  }
 
-  onSaveFlight: function(flight) {
-    this.setState({ showFlightForm: false });
-  },
+  onSaveFlight(flight) { 
+    this.setState({ showFlightForm: false }) 
+  }
 
-  render: function() {
-    var flightForm, addFlights;
+  render() {
+    let flightForm, addFlights;
 
     if(this.state.status == 'success') {
       addFlights = (
-        <button type="button" className="btn btn-info" onClick={this.addFlight}>
+        <button type="button" className="btn btn-info" onClick={this.addFlight.bind(this)}>
           <span className="glyphicon glyphicon-plus"></span> Flights
         </button>
       );
     }
 
     if(this.state.showFlightForm) {
-      flightForm = <CreateFlight onSaveSuccess={this.onSaveFlight} orderId={this.state.order.id} />
+      flightForm = <CreateFlight 
+        onSaveSuccess={this.onSaveFlight.bind(this)} 
+        orderId={this.state.order.id} />
     }
 
     return <div className="row">
-        <OrderForm order={this.state.order} buttonGroup={[ addFlights ]} onChange={this.handleChange} onSubmit={this.handleSubmit} />
+      <OrderForm order={this.state.order} 
+        buttonGroup={[ addFlights ]} 
+        onChange={this.handleChange.bind(this)} 
+        onSubmit={this.handleSubmit.bind(this)} />
         {flightForm}
       </div>
   }
-});
+}
+
+export default CreateOrder;

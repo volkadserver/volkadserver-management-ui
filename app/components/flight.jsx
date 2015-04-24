@@ -1,42 +1,43 @@
 import React from "react";
-import marty from "marty";
-import orderStore from "../stores/orderStore.js";
+import Marty from "marty";
+import OrderStore from "../stores/orderStore.js";
 import {Link} from "react-router";
 import CreateCreative from "./createCreative.jsx";
-import _ from "lodash";
 
-var orderStateMixin = marty.createStateMixin({
-  listenTo: orderStore,
-  getState() {
-    return orderStore.getFlight(this.props.orderId, this.props.id)
+class Flight extends React.Component {
+  render() {
+    return <div className="row">
+      <div className="page-header">
+        <h1>
+          {this.props.flight.flightName + ' '}
+          <small>
+            <Link params={{ id: this.props.orderId }} to="order">
+              belongs to Order #{this.props.flight.orderId}
+            </Link>
+          </small>
+        </h1>
+      </div>
+      <div>
+        <CreateCreative />
+      </div>
+    </div>
   }
-});
+}
 
-export default React.createClass({
-  mixins: [ orderStateMixin ],
-  
-  render: function() {
-
-    return this.state.when({
-      pending: function() { return <div className="row">Pending</div> },
-      failed: function(err) { return <div className="row">{err}</div> },
-      done: function(flight) {
-        return <div className="row">
-          <div className="page-header">
-            <h1>
-              {flight.flightName + ' '}
-              <small>
-                <Link params={{ id: flight.orderId }} to="order">
-                  belongs to Order #{flight.orderId}
-                </Link>
-              </small>
-            </h1>
-          </div>
-          <div>
-            <CreateCreative />
-          </div>
-        </div>
-      }
+export default Marty.createContainer(Flight, {
+  listenTo: OrderStore,
+  fetch: {
+    flight() {
+      return OrderStore.for(this).getFlight(this.props.orderId, this.props.id);
+    }
+  },
+  failed(err) {
+    return <div>{err}</div>
+  },
+  pending() {
+    return this.done({
+      flight: { }
     });
   }
 });
+

@@ -15,7 +15,6 @@ var advertiserStore = marty.createStore({
   getInitialState() {
     advertiserActionCreators.refreshAdvertisers();
     
-    return { advertisers: {} };
   },
 
   receiveAdvertisers(advertisers) {
@@ -23,9 +22,22 @@ var advertiserStore = marty.createStore({
     advertisers.forEach(function(advertiser) {
       this.state.advertisers[advertiser.id] = advertiser;
     }, this);
+    console.log('got new advertisers', advertisers);
     
     this.hasChanged();
 
+  },
+
+  getAdvertisers() {
+    return this.fetch({
+      id: 'GET_ADVERTISERS',
+      locally() {
+        return this.state.advertisers || undefined;
+      },
+      remotely() {
+        return advertiserApi.getAllAdvertisers();
+      }
+    });
   },
 
   getAdvertiser(id) {
@@ -51,10 +63,6 @@ var advertiserStore = marty.createStore({
         if(typeof options.success == 'function') options.success(res.body);
         return res;
       }.bind(advertiser))
-      .catch(function(er) {
-        if(typeof options.error == 'function') options.error();
-        return er;
-      });
   }
 
 });

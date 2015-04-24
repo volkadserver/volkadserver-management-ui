@@ -1,35 +1,28 @@
 import React from "react";
 import _ from "lodash";
 import {Link} from "react-router";
-import marty from "marty";
-import advertiserStore from "../stores/advertiserStore.js";
+import Marty from "marty";
+import AdvertiserStore from "../stores/advertiserStore.js";
 
-var advertiserStateMixin = marty.createStateMixin(advertiserStore);
-
-var IndexItem = React.createClass({
-  getInitialState() {
-    return {};
-  },
-
+class IndexItem extends React.Component {
   render() {
-    return (
-      <tr>
-        <td><Link to="advertiser" params={{ advertiserId: this.props.id }}>{this.props.advertiserName}</Link></td>
+    return <tr>
+        <td>
+          <Link to="advertiser" params={{ advertiserId: this.props.id }}>
+            {this.props.advertiserName}
+          </Link>
+        </td>
         <td>
           <span className="glyphicon glyphicon-edit pull-right"></span>
         </td>
       </tr>  
-    )
   }
-});
+}
 
-export default React.createClass({
-  mixins: [ advertiserStateMixin ],
-
-  render: function() {
-    var indexItems =  _.map(this.state.advertisers, function(advertiser, i) {
-          if(typeof advertiser.id !== 'undefined')
-            return <IndexItem {...advertiser} key={i} />;
+class AdvertiserIndex extends React.Component {
+  render() {
+    var indexItems =  _.map(this.props.advertisers, function(advertiser, i) {
+            return <IndexItem {...advertiser} key={i-1} />;
         });
 
     return <div className="row">
@@ -44,4 +37,23 @@ export default React.createClass({
         </table>
       </div>
   }
+}
+
+export default Marty.createContainer(AdvertiserIndex, {
+  listenTo: AdvertiserStore,
+
+  fetch: {
+    advertisers() {
+      return AdvertiserStore.for(this).getAdvertisers();
+    }
+  },
+  failed(err) {
+    return <div>{err}</div>
+  },
+  pending() {
+    return this.done({
+      advertisers: {}
+    });
+  }
+
 });
