@@ -6,10 +6,17 @@ var orderApi = marty.createStateSource({
   baseUrl: 'http://localhost:3000/api',
   
   getAllOrders() {
-    return this.get('/Orders').then(function(res) {
-      orderSourceActionCreators.receiveOrders(res.body);
+    let orderPromise = this.get('/Orders').then(function(res) {
       return res.body;
     });
+    let flightPromise = this.getAllFlights();
+
+    return Promise.all([orderPromise, flightPromise])
+      .then(function([orders, flights]) {
+        orderSourceActionCreators.receiveOrders(orders);
+        orderSourceActionCreators.receiveFlights(flights);
+        return orders; 
+      });
   },
 
   getAllFlights() {

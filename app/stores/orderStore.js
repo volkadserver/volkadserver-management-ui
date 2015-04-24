@@ -55,7 +55,7 @@ var orderStore = marty.createStore({
         return this.state.orders ? this.state.orders[id] : undefined;
       },
       remotely: function() {
-        return orderApi.getOrder(id);
+        return orderApi.getAllOrders();
       }
     });
   },
@@ -70,7 +70,7 @@ var orderStore = marty.createStore({
         }
       },
       remotely: function() {
-        return orderApi.getFlight(orderId, id);
+        return orderApi.getAllOrders();
       }
     });
   },
