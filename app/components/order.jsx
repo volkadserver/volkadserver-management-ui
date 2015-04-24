@@ -13,7 +13,7 @@ class Order extends React.Component {
     if(order.flights) {
       // TODO: create a flight index component which loads these
       flightItems =  _.map(order.flights, function(flight, i) {
-        flight.orderId = order.id;
+        flight.orderId = flight.OrderId;
             return <FlightItem { ...flight } key={i} />;
           });
     }
