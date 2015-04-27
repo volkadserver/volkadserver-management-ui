@@ -1,19 +1,15 @@
-import marty from "marty";
-import advertiserConstants from "../constants/advertiserConstants.js";
+import Marty from "marty";
+import AdvertiserConstants from "../constants/advertiserConstants.js";
 
-var timeout;
+class AdvertiserActionCreators extends Marty.ActionCreators {
+  createAdvertiser(advertiser, options) {
+    this.dispatch(AdvertiserConstants.CREATE_ADVERTISER, advertiser, options);
+  } 
 
-var advertiserActionCreators = marty.createActionCreators({
-  createAdvertiser: advertiserConstants.CREATE_ADVERTISER(function(advertiser, options) {
-    this.dispatch(advertiser, options);
-  }),
+  refreshAdvertisers() {
+    this.dispatch(AdvertiserConstants.REFRESH_ADVERTISERS);
+  }
+}
 
-  refreshAdvertisers: advertiserConstants.REFRESH_ADVERTISERS(function() {
-    this.dispatch();
-    clearTimeout(timeout);
-    timeout = setTimeout(this.refreshAdvertisers, 10000);
-  })
-});
+export default Marty.register(AdvertiserActionCreators);
 
-
-export default advertiserActionCreators;

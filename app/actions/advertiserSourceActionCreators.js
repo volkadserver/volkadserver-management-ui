@@ -1,10 +1,10 @@
-import marty from "marty";
-import advertiserConstants from "../constants/advertiserConstants.js";
+import Marty from "marty";
+import AdvertiserConstants from "../constants/advertiserConstants.js";
 
-var advertiserSourceActionCreators = marty.createActionCreators({
-  receiveAdvertisers: advertiserConstants.RECEIVE_ADVERTISERS(function(advertisers) {
-    this.dispatch(advertisers);
-  })
-});
+class AdvertiserSourceActionCreators extends Marty.ActionCreators {
+  receiveAdvertisers(advertisers) {
+    this.dispatch(AdvertiserConstants.RECEIVE_ADVERTISERS, advertisers);
+  }
+}
 
-export default advertiserSourceActionCreators;
+export default Marty.register(AdvertiserSourceActionCreators);

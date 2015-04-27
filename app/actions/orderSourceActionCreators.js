@@ -1,18 +1,18 @@
-import marty from "marty";
-import orderConstants from "../constants/orderConstants.js";
+import Marty from "marty";
+import OrderConstants from "../constants/orderConstants.js";
 
-var orderSourceActionCreators = marty.createActionCreators({
-  receiveOrders: orderConstants.RECEIVE_ORDERS(function(orders) {
-    this.dispatch(orders);
-  }),
+class OrderSourceActionCreators extends Marty.ActionCreators {
+  receiveOrders(orders) {
+    this.dispatch(OrderConstants.RECEIVE_ORDERS, orders);
+  }
 
-  receiveCreatives: orderConstants.RECEIVE_CREATIVES(function(creatives) {
-    this.dispatch(creatives);
-  }),
+  receiveCreatives(creatives) {
+    this.dispatch(OrderConstants.RECEIVE_CREATIVES, creatives);
+  }
 
-  receiveFlights: orderConstants.RECEIVE_FLIGHTS(function(flights, orderId) {
-    this.dispatch(flights, orderId);
-  })
-});
+  receiveFlights(flights) {
+    this.dispatch(OrderConstants.RECEIVE_FLIGHTS, flights);
+  }
+}
 
-export default orderSourceActionCreators;
+export default Marty.register(OrderSourceActionCreators);

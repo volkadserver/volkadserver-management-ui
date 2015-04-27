@@ -1,19 +1,14 @@
-import marty from "marty";
-import creativeConstants from "../constants/creativeConstants.js";
+import Marty from "marty";
+import CreativeConstants from "../constants/creativeConstants.js";
 
-var timeout;
+class CreativeActionCreators extends Marty.ActionCreators {
+  createCreative(creative, options) {
+    this.dispatch(CreativeConstants.CREATIVE_CREATIVE, creative, options);
+  }
 
-var creativeActionCreators = marty.createActionCreators({
-  createCreative: creativeConstants.CREATE_CREATIVE(function(creative, options) {
-    this.dispatch(creative, options);
-  }),
+  refreshCreatives() {
+    this.dispatch(CreativeConstants.CREATIVE_CREATIVE);
+  }
+}
 
-  refreshCreatives: creativeConstants.REFRESH_CREATIVES(function() {
-    this.dispatch();
-    clearTimeout(timeout);
-    timeout = setTimeout(this.refreshCreatives, 10000);
-  })
-});
-
-
-export default creativeActionCreators;
+export default Marty.register(CreativeActionCreators);

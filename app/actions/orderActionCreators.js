@@ -1,27 +1,22 @@
-import marty from "marty";
-import orderConstants from "../constants/orderConstants.js";
+import Marty from "marty";
+import OrderConstants from "../constants/orderConstants.js";
 
-var timeout;
+class OrderActionCreators extends Marty.ActionCreators {
+  creatFlight(flight, orderId, options) {
+    this.dispatch(OrderConstants.CREATE_FLIGHT, flight, orderId, options);
+  }
 
-var orderActionCreators = marty.createActionCreators({
-  createFlight: orderConstants.CREATE_FLIGHT(function(flight, orderId, options) {
-    this.dispatch(flight, orderId, options);
-  }),
+  createCreative(creative, flightId, options) {
+    this.dispatch(OrderConstants.CREATE_CREATIVE, creative, flightId, options);
+  }
 
-  createCreative: orderConstants.CREATE_CREATIVE(function(creative, orderId, options) {
-    this.dispatch(creative, orderId, options);
-  }),
+  createOrder(order, options) {
+    this.dispatch(OrderConstants.CREATE_ORDER, order, options);
+  }
 
-  createOrder: orderConstants.CREATE_ORDER(function(order, options) {
-    this.dispatch(order, options);
-  }),
+  refreshOrders() {
+    this.dispaych(OrderConstants.REFRESH_CREATIVES);
+  }
+}
 
-  refreshOrders: orderConstants.REFRESH_ORDERS(function() {
-    this.dispatch();
-    clearTimeout(timeout);
-    timeout = setTimeout(this.refreshOrders, 10000);
-  })
-});
-
-
-export default orderActionCreators;
+export default Marty.register(OrderActionCreators);

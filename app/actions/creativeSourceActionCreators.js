@@ -1,10 +1,10 @@
-import marty from "marty";
-import creativeConstants from "../constants/creativeConstants.js";
+import Marty from "marty";
+import CreativeConstants from "../constants/creativeConstants.js";
 
-var creativeSourceActionCreators = marty.createActionCreators({
-  receiveCreatives: creativeConstants.RECEIVE_CREATIVES(function(creatives) {
-    this.dispatch(creatives);
-  })
-});
+class CreativeSourceActionCreators extends Marty.ActionCreators {
+  receiveCreatives(creatives) {
+    this.dispatch(CreativeConstants.RECEIVE_CREATIVES, creatives);
+  }
+}
 
-export default creativeSourceActionCreators;
+export default Marty.register(CreativeSourceActionCreators);
