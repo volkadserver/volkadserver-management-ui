@@ -1,33 +1,30 @@
-import marty from "marty";
-import creativeSourceActionCreators from "../actions/creativeSourceActionCreators";
+import Marty from "marty";
+import CreativeSourceActionCreators from "../actions/creativeSourceActionCreators";
 
-var creativeApi = marty.createStateSource({
-  type: 'http',
-  baseUrl: 'http://localhost:3000/api',
-  
+class CreativeApi extends Marty.HttpStateSource {
+  constructor() {
+    super();
+
+    this.baseUrl: 'http://localhost:3000/api'
+  }
+
   getAllCreatives() {
-    return this.get('/Creatives').then(function(res) {
-      creativeSourceActionCreators.receiveCreatives(res.body);
-      return res.body;
-    });
-  },
+    return this.get('/Creatives')
+      .then((res) => CreativeSourceActionCreators(res.body));
+  }
 
   getCreative(id) {
-    return this.get('/Creatives/' + id).then(function(res) {
-      creativeSourceActionCreators.receiveCreatives([res.body]);
-    });
-  },
+    return this.get('/Creatives/' + id)
+      .then((res) => CreativeSourceActionCreators(res.body));
+  }
 
   createCreative(creative, flightId) {
     creative.flightId = flightId;
-    return this.post({ url: '/Creatives', body: creative, contentType: 'application/json' })
-      .then(function(res) {
-        creativeSourceActionCreators.receiveCreatives([res.body]);
-        return res;
-      });
+    return this
+      .post({ url: '/Creatives', body: creative, contentType: 'application/json' })
+      .then((res) => CreativeSourceActionCreators.receiveCreatives([res.body]));
   }
+}
 
-});
 
-
-export default creativeApi;
+export default Marty.register(CreativeApi);
