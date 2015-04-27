@@ -1,4 +1,5 @@
 import Marty from "marty";
+import _ from "lodash";
 import AdvertiserConstants from "../constants/advertiserConstants";
 import AdvertiserApi from "../sources/advertiserApi";
 import AdvertiserActionCreators from "../actions/advertiserActionCreators";
@@ -30,7 +31,7 @@ class AdvertiserStore extends Marty.Store {
     return this.fetch({
       id: 'GET_ADVERTISERS',
       locally() {
-        return this.state.advertisers || undefined;
+        return _.isEmpty(this.state.advertisers) ? undefined : this.state.advertisers;
       },
       remotely() {
         return AdvertiserApi.getAllAdvertisers();
