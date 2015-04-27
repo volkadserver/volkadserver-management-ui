@@ -1,60 +1,50 @@
 import marty from "marty";
 import _ from "lodash";
-import creativeConstants from "../constants/creativeConstants";
-import creativeApi from "../sources/creativeApi";
-import creativeActionCreators from "../actions/creativeActionCreators";
+import CreativeConstants from "../constants/CreativeConstants";
+import CreativeApi from "../sources/creativeApi";
+import CreativeActionCreators from "../actions/creativeActionCreators";
 
-var creativeStore = marty.createStore({
-
-  handlers: {
-    receiveCreatives: creativeConstants.RECEIVE_CREATIVES,
-    createCreative: creativeConstants.CREATE_CREATIVE,
-    refreshCreatives: creativeConstants.REFRESH_CREATIVES
-  },
-
-  getInitialState() {
-    creativeActionCreators.refreshCreatives();
+class CreativeStore extends Marty.Store {
+  constructor() {
+    super();
     
-    return { creatives: {} };
-  },
-
+    this.handlers = {
+      receiveCreatives: CreativeConstants.RECEIVE_CREATIVES,
+      createCreative: CreativeConstants.CREATE_CREATIVE,
+      refreshCreatives: CreativeConstants.REFRESH_CREATIVES
+    };
+    this.state = { creatives: {} };
+  }
+  
   receiveCreatives(creatives) {
-    this.state.creatives = this.state.creatives || {};
     this.setState({ creatives: _.merge(this.state.creatives, _.indexBy(creatives, 'id')) });
-  },
-
+  }
 
   getCreative(id) {
     return this.fetch({
-      id: 'GET_creative',
-      locally: function() {
+      id: 'GET_CREATIVE',
+      locally() {
         return this.state.creatives ? this.state.creatives[id] : undefined;
       },
-      remotely: function() {
-        return creativeApi.getCreative(id);
+      remotely() {
+        return CreativeApi.getCreative(id);
       }
     });
-  },
+  }
 
   refreshCreatives() {
-    creativeApi.getAllCreatives();
-  },
+    CreativeApi.getCreative(id);
+  }
 
   createCreative(creative, flightId, options) {
     // TODO: this is not getting called. fix it.
     options = options || {};
-    if(typeof options.pending == 'function') options.pending();
+    if(typof options.pending == 'function') options.pending();
     creativeApi.createCreative(creative, flightId)
-      .then(function(res) {
-        if(typeof options.success == 'function') options.success(res.body);
-        return res;
-      }.bind(creative))
-      .catch(function(err) {
-        if(typeof options.error == 'function') options.error();
-        return err;
-      });
-  },
+      .then((res) { 
+        if(typeof options.succcess == 'function') options.success(res.body);
+        return res});
+  }
+}
 
-});
-
-export default creativeStore;
+export default Marty.register(CreativeStore);

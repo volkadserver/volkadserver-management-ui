@@ -1,32 +1,30 @@
-import marty from "marty";
-import advertiserConstants from "../constants/advertiserConstants";
-import advertiserApi from "../sources/advertiserApi";
-import advertiserActionCreators from "../actions/advertiserActionCreators";
+import Marty from "marty";
+import AdvertiserConstants from "../constants/advertiserConstants";
+import AdvertiserApi from "../sources/advertiserApi";
+import AdvertiserActionCreators from "../actions/advertiserActionCreators";
 
-var advertiserStore = marty.createStore({
+class AdvertiserStore extends Marty.Store {
+  constructor() {
+    super();
 
-  handlers: {
-    receiveAdvertisers: advertiserConstants.RECEIVE_ADVERTISERS,
-    createAdvertiser: advertiserConstants.CREATE_ADVERTISER,
+    AdvertiserActionCreators.refreshAdvertisers();
 
-    refreshAdvertisers: advertiserConstants.REFRESH_ADVERTISERS
-  },
+    this.state = { advertisers: {} };
 
-  getInitialState() {
-    advertiserActionCreators.refreshAdvertisers();
-    
-  },
+    this.handlers = {
+      receiveAdvertisers: AdvertiserConstants.RECEIVE_ADVERTISERS,
+      createAdvertiser: AdvertiserConstants.CREATE_ADVERTISER,
+      refreshAdvertisers: AdvertiserConstants.REFRESH_ADVERTISERS
+    };
+  }
 
   receiveAdvertisers(advertisers) {
-    this.state.advertisers = this.state.advertisers || {};
+    // TODO: why aren't you just using _.merge?
     advertisers.forEach(function(advertiser) {
       this.state.advertisers[advertiser.id] = advertiser;
     }, this);
-    console.log('got new advertisers', advertisers);
-    
     this.hasChanged();
-
-  },
+  }
 
   getAdvertisers() {
     return this.fetch({
@@ -35,36 +33,35 @@ var advertiserStore = marty.createStore({
         return this.state.advertisers || undefined;
       },
       remotely() {
-        return advertiserApi.getAllAdvertisers();
+        return AdvertiserApi.getAllAdvertisers();
       }
     });
-  },
+  }
 
   getAdvertiser(id) {
     return this.fetch({
       id: 'GET_ADVERTISER',
-      locally: function() {
-        return this.state.advertisers ? this.state.advertisers[id] : undefined;
+      locally() {
+        return this.state.advertisers ? this.state.advertisers[id] :  undefined;
       },
-      remotely: function() {
-        return advertiserApi.getAdvertiser(id);
+      remotely() {
+        return AdvertiserApi.getAllAdvertisers();
       }
     });
-  },
+  }
 
   refreshAdvertisers() {
-    advertiserApi.getAllAdvertisers();
-  },
+    AdvertiserApi.getAllAdvertisers();
+  }
 
   createAdvertiser(advertiser, options) {
     if(typeof options.pending == 'function') options.pending();
-    advertiserApi.createAdvertiser(advertiser)
-      .then(function(res) {
+    AdvertiserApi.createAdvertiser(advertiser)
+      .then((res) => {
         if(typeof options.success == 'function') options.success(res.body);
         return res;
-      }.bind(advertiser))
+      });
   }
+}
 
-});
-
-export default advertiserStore;
+export default Marty.register(AdvertiserStore);

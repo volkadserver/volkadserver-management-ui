@@ -1,106 +1,99 @@
-import marty from "marty";
+import Marty from "marty";
 import _ from "lodash";
-import orderConstants from "../constants/orderConstants";
-import orderApi from "../sources/orderApi";
-import orderActionCreators from "../actions/orderActionCreators";
+import OrderConstants from "../constants/OrderConstants";
+import OrderApi from "../sources/orderApi";
+import OrderActionCreators from "../actions/orderActionCreators";
 
-var orderStore = marty.createStore({
+class OrderStore extends Marty.Store {
+  constructor() {
+    super();
 
-  handlers: {
-    receiveOrders: orderConstants.RECEIVE_ORDERS,
-    receiveFlights: orderConstants.RECEIVE_FLIGHTS,
-    createOrder: orderConstants.CREATE_ORDER,
-    createFlight: orderConstants.CREATE_FLIGHT,
-    refreshOrders: orderConstants.REFRESH_ORDERS
-  },
-
-  getInitialState() {
-    orderActionCreators.refreshOrders();
-    
-    return { };
-  },
+    this.handlers = {
+      receiveOrders: OrderConstants.RECEIVE_ORDERS,
+      receiveFlights: OrderConstants.RECEIVE_FLIGHTS,
+      createOrder: OrderConstants.CREATE_ORDER,
+      createFlight: OrderConstants.CREATE_FLIGHT,
+      refreshOrders: OrderConstants.REFRESH_ORDERS
+    }
+  }
 
   receiveOrders(orders) {
-    this.state.orders = this.state.orders || {};
-    this.setState({ orders: _.merge(this.state.orders, _.indexBy(orders, 'id')) });
-  },
+    this.setState({ orders : _.merge(this.state.orders || {}, _.indexBy(orders, 'id')) });
+  }
 
   receiveFlights(flights) {
-    this.state.orders = this.state.orders || {};
-    flights = _.groupBy(flights, 'OrderId');
-    var orders = {};
-    _.forEach(flights, function(orderFlights, orderId) {
-      orders[orderId] = { flights: _.indexBy(orderFlights, 'id') };
-    });
+    let orders = _.reduce(
+      _.groupBy(flights, 'OrderId'), 
+      (memo, orderFlights, orderId) => { 
+        memo[orderId] = { flights: _.indexBy(orderFlights, 'id') }
+        return memo;
+      }, {});
 
-    this.setState({ orders: _.merge(this.state.orders, orders) });
-  },
+
+    this.setState({ orders: _.merge(this.state.orders || {}, orders) });
+  }
 
   getOrders() {
     return this.fetch({
       id: 'GET_ORDERS',
-      locally: function() {
+      locally() {
+        console.log(this.state.orders);
         return this.state.orders;
       },
-      remotely: function() {
-        return orderApi.getAllOrders();
+      remotely() {
+        return OrderApi.getAllOrders();
       }
     });
-  },
+  }
 
   getOrder(id) {
     return this.fetch({
       id: 'GET_ORDER',
-      locally: function() {
+      locally() {
         return this.state.orders ? this.state.orders[id] : undefined;
       },
       remotely: function() {
-        return orderApi.getAllOrders();
+        return OrderApi.getAllOrders();
       }
     });
-  },
+  }
 
   getFlight(orderId, id) {
     return this.fetch({
       id: 'GET_FLIGHT',
-      locally: function() {
-        if(this.state.orders) {
-          return this.state.orders[orderId] 
-            ? this.state.orders[orderId].flights[id] : undefined;
-        }
+      locally() {
+        return (this.state.orders && this.state.orders[orderId])
+          ? this.state.orders[orderId].flights[id] : undefined;
       },
-      remotely: function() {
-        return orderApi.getAllOrders();
+      remotely() {
+        return OrderApi.getAllOrders();
       }
     });
-  },
+  }
 
   refreshOrders() {
-    orderApi.getAllFlights();
-    orderApi.getAllOrders();
-  },
+    OrderApi.getAllFlights();
+    OrderApi.getAllOrders();
+  }
 
   createOrder(order, options) {
     if(typeof options.pending == 'function') options.pending();
-    orderApi.createOrder(order)
-      .then(function(res) {
+    OrderApi.createOrder(order)
+      .then((res) => {
         if(typeof options.success == 'function') options.success(res.body);
         return res;
-      }.bind(order))
-      .catch(function(err) {
-        if(typeof options.error == 'function') options.error();
-        return err;
       });
-  },
+  }
 
   createFlight(flight, orderId, options) {
     if(typeof options.pending == 'function') options.pending();
-    orderApi.createFlight(flight, orderId)
-      .then(function(res) {
+    OrderApi.createFlight(flight, orderId)
+      .then((res) => {
         if(typeof options.success == 'function') options.success(res.body);
         return res;
-      }.bind(flight))
+      });
   }
-});
 
-export default orderStore;
+}
+
+export default Marty.register(OrderStore);
