@@ -5,6 +5,8 @@ var watchify = require('watchify');
 var concat = require('gulp-concat');
 var babelify = require('babelify');
 var haml = require('gulp-haml');
+
+watchify.args.debug = true;
  
 var bundler = watchify(browserify('./app/main.jsx', watchify.args));
 bundler.transform(babelify);
