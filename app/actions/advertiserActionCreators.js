@@ -1,9 +1,11 @@
 import Marty from "marty";
 import AdvertiserConstants from "../constants/advertiserConstants.js";
+import AdvertiserApi from "../sources/advertiserApi";
 
 class AdvertiserActionCreators extends Marty.ActionCreators {
-  createAdvertiser(advertiser, options) {
-    this.dispatch(AdvertiserConstants.CREATE_ADVERTISER, advertiser, options);
+  createAdvertiser(advertiser) {
+    this.dispatch(AdvertiserConstants.CREATE_ADVERTISER, advertiser);
+    return AdvertiserApi.createAdvertiser(advertiser)
   } 
 
   refreshAdvertisers() {

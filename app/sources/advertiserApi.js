@@ -21,7 +21,7 @@ class AdvertiserApi extends Marty.HttpStateSource {
   createAdvertiser(advertiser) {
     return this
       .post({ url: '/Advertisers', body: advertiser, contentType: 'application/json' })
-      .then((res) => AdvertiserSourceActionCreators([res.body]));
+      .then((res) => AdvertiserSourceActionCreators.receiveAdvertisers([res.body]))
   }
 }
 

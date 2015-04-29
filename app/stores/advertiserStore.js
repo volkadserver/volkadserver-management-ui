@@ -8,30 +8,26 @@ class AdvertiserStore extends Marty.Store {
   constructor() {
     super();
 
-    AdvertiserActionCreators.refreshAdvertisers();
+    this.getAdvertisers();
 
-    this.state = { advertisers: {} };
+    this.state = { advertisers: undefined };
 
     this.handlers = {
       receiveAdvertisers: AdvertiserConstants.RECEIVE_ADVERTISERS,
-      createAdvertiser: AdvertiserConstants.CREATE_ADVERTISER,
-      refreshAdvertisers: AdvertiserConstants.REFRESH_ADVERTISERS
+      createAdvertiser: AdvertiserConstants.CREATE_ADVERTISER
     };
   }
 
   receiveAdvertisers(advertisers) {
-    // TODO: why aren't you just using _.merge?
-    advertisers.forEach(function(advertiser) {
-      this.state.advertisers[advertiser.id] = advertiser;
-    }, this);
-    this.hasChanged();
+    advertisers = _.indexBy(advertisers, 'id');
+    this.setState({ advertisers: Object.assign(this.state.advertisers || {}, advertisers) });
   }
 
   getAdvertisers() {
     return this.fetch({
       id: 'GET_ADVERTISERS',
       locally() {
-        return _.isEmpty(this.state.advertisers) ? undefined : this.state.advertisers;
+        return this.state.advertisers;
       },
       remotely() {
         return AdvertiserApi.getAllAdvertisers();
@@ -51,17 +47,9 @@ class AdvertiserStore extends Marty.Store {
     });
   }
 
-  refreshAdvertisers() {
-    AdvertiserApi.getAllAdvertisers();
-  }
-
-  createAdvertiser(advertiser, options) {
-    if(typeof options.pending == 'function') options.pending();
-    AdvertiserApi.createAdvertiser(advertiser)
-      .then((res) => {
-        if(typeof options.success == 'function') options.success(res.body);
-        return res;
-      });
+  createAdvertiser(advertiser) {
+    // In case you wanted to add a fake one or something while we wait for
+    // receiveAdvertisers to get called.
   }
 }
 

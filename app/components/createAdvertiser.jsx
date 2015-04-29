@@ -13,19 +13,13 @@ class CreateAdvertiser extends React.Component {
   onSaveSuccess() {
     if(typeof this.props.onSaveSuccess === 'function')
       this.props.onSaveSuccess(this.state);
+    this.setState({ status: 'success' });
   }
 
   submitAdvertiser() {
-    AdvertiserActionCreators.createAdvertiser(
-      this.state,
-      {
-        pending: () => this.setState({ status: 'pending' }),
-        error: (err) => this.setState({ status: 'error' }),
-        success: () => {
-          this.setState({ status: 'success', saves: true });
-          this.onSaveSuccess();
-        }
-      });
+    this.setState({ status: 'pending' });
+    AdvertiserActionCreators.createAdvertiser(this.state)
+      .then(() => this.onSaveSuccess());
   }
 
   onChange(val, e) {
