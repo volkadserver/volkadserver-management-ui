@@ -4,6 +4,7 @@ import AdvertiserConstants from "../constants/advertiserConstants.js";
 class AdvertiserSourceActionCreators extends Marty.ActionCreators {
   receiveAdvertisers(advertisers) {
     this.dispatch(AdvertiserConstants.RECEIVE_ADVERTISERS, advertisers);
+    return advertisers;
   }
 }
 
