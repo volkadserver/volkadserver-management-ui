@@ -1,4 +1,4 @@
-import marty from "marty";
+import Marty from "marty";
 import _ from "lodash";
 import CreativeConstants from "../constants/CreativeConstants";
 import CreativeApi from "../sources/creativeApi";
@@ -39,9 +39,9 @@ class CreativeStore extends Marty.Store {
   createCreative(creative, flightId, options) {
     // TODO: this is not getting called. fix it.
     options = options || {};
-    if(typof options.pending == 'function') options.pending();
+    if(typeof options.pending == 'function') options.pending();
     creativeApi.createCreative(creative, flightId)
-      .then((res) { 
+      .then((res) => { 
         if(typeof options.succcess == 'function') options.success(res.body);
         return res});
   }

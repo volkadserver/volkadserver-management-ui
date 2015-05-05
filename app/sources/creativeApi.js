@@ -5,7 +5,7 @@ class CreativeApi extends Marty.HttpStateSource {
   constructor() {
     super();
 
-    this.baseUrl: 'http://localhost:3000/api'
+    this.baseUrl = 'http://localhost:3000/api'
   }
 
   getAllCreatives() {
