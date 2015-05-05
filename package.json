@@ -32,6 +32,21 @@
     "watchify": "^3.1.1"
   },
   "devDependencies": {
-    "gulp-babel": "^5.1.0"
+    "chai": "^2.3.0",
+    "chai-as-promised": "^5.0.0",
+    "chai-properties": "^1.2.0",
+    "chai-things": "^0.2.0",
+    "gulp-babel": "^5.1.0",
+    "karma": "^0.12.31",
+    "karma-babel-preprocessor": "^5.1.0",
+    "karma-browserify": "^4.1.2",
+    "karma-chrome-launcher": "^0.1.8",
+    "karma-firefox-launcher": "^0.1.4",
+    "karma-mocha": "^0.1.10",
+    "karma-mocha-reporter": "^1.0.2",
+    "karma-sinon": "^1.0.4",
+    "karma-spec-reporter": "0.0.19",
+    "mocha": "^2.2.4",
+    "sinon": "^1.14.1"
   }
 }
