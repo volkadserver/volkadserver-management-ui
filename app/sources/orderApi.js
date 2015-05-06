@@ -44,7 +44,7 @@ class OrderApi extends Marty.HttpStateSource {
     return this
       .post({ 
         url: '/Orders/' + orderId + '/Flights', 
-        body: flights, 
+        body: flight, 
         contentType: 'application/json' })
       .then((res) => OrderSourceActionCreators.receiveFlights([res.body], orderId));
   }
