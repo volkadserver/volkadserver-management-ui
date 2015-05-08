@@ -2,7 +2,7 @@ import Marty from "marty";
 import OrderConstants from "../constants/orderConstants.js";
 
 class OrderActionCreators extends Marty.ActionCreators {
-  creatFlight(flight, orderId, options) {
+  createFlight(flight, orderId, options) {
     this.dispatch(OrderConstants.CREATE_FLIGHT, flight, orderId, options);
   }
 
