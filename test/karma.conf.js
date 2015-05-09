@@ -31,6 +31,7 @@ module.exports = function(config) {
     },
 
     browserify: {
+      bundleDelay: 1000,
       debug: true,
       transform: ['babelify']
     },
